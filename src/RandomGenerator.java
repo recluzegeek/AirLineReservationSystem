@@ -26,8 +26,7 @@ public class RandomGenerator {
 
     public int randomNumOfSeats() {
         Random random = new Random();
-        int numOfSeats = random.nextInt(500);
-        return numOfSeats;
+        return random.nextInt(500);
     }
 
     public String randomFlightNumbGen() {
