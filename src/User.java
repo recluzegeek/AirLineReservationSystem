@@ -7,17 +7,18 @@ import java.util.List;
 import java.util.Scanner;
 
 public class User {
+
     private static int countNumOfUsers = 1;
     /*2D Array to store credentials.... Default credentials are stored on 0 index....Max num of users can be 10....*/
     private static String[][] usernameAndPassword = new String[10][2];
 
     /*Getter method for the 2D Array to be accessed in RolesAndPermission class*/
-    public static String[][] getUsernameAndPassword() {
+    public String[][] getUsernameAndPassword() {
         return usernameAndPassword;
     }
 
     /*Created a List of Customer Class using the name of customersCollection */
-    private static List<Customer> customersCollection = new ArrayList<Customer>();
+    private static List<Customer> customersCollection = new ArrayList<>();
 
     /*Getter Method for the customersCollection List to be accessed in Customer.java Class..*/
     public static List<Customer> getCustomersCollection() {
@@ -25,6 +26,8 @@ public class User {
     }
 
     public static void main(String[] args) {
+        Flight f1 = new Flight();
+        f1.flightScheduler();
 //        Main Menu
         Scanner read = new Scanner(System.in);
         System.out.println("\n\t\t\t\t\t+++++++++++++ Welcome to BAV AirLines +++++++++++++\n\nTo Further Proceed, Please enter a value.");
@@ -32,7 +35,7 @@ public class User {
         System.out.println("\t\t(a) Press 0 to Exit.");
         System.out.println("\t\t(b) Press 1 to Login.");
         System.out.println("\t\t(c) Press 2 to Register.");
-        System.out.println("\t\t(d) Press 3 to Book a Ticket.");
+        System.out.println("\t\t(d) Press 3 to display all available Flights.");
         System.out.println("\t\t(e) Press 4 to Reserve a Ticket.");
         System.out.print("\t\tEnter the desired option:    ");
         int desiredOption = read.nextInt();
@@ -49,6 +52,7 @@ public class User {
              * data is found then show the user display menu for adding, updating, deleting and searching users/customers...
              * */
             if (desiredOption == 1) {
+                RolesAndPermissions r1 = new RolesAndPermissions();
                 /*Setting the default username and password....*/
                 usernameAndPassword[0][0] = "root";
                 usernameAndPassword[0][1] = "root";
@@ -61,9 +65,9 @@ public class User {
                 System.out.println();
 
                 /*Checking the RolesAndPermissions......*/
-                if (RolesAndPermissions.isPrivilegedUserOrNot(username, password) == -1) {
+                if (r1.isPrivilegedUserOrNot(username, password) == -1) {
                     System.out.println("ERROR!!! Cannot find user with the entered credentials.... Try Creating New Credentials or get yourself register by pressing 2....");
-                } else if (RolesAndPermissions.isPrivilegedUserOrNot(username, password) == 0) {
+                } else if (r1.isPrivilegedUserOrNot(username, password) == 0) {
                     System.out.println("You've standard/default privileges to access the data... You can just view customers data..." +
                             "Can't perform any actions on them....");
                     Customer.display();
@@ -126,9 +130,9 @@ public class User {
                         } else if (desiredOption == 5) {
                             /*Call the Display Method of Customer Class....*/
                             Customer.display();
-                        } else if(desiredOption==0) {
+                        } else if (desiredOption == 0) {
                             System.out.println("Thanks for Using BAV Airlines Ticketing System...!!!");
-                        }else {
+                        } else {
                             System.out.println("Invalid Choice...Looks like you're Robot...Entering values randomly...You've Have to login again...");
                             desiredOption = 0;
                         }
@@ -151,6 +155,7 @@ public class User {
                 /*Incrementing the numOfUsers */
                 countNumOfUsers++;
             } else if (desiredOption == 3) {
+                f1.displayFlightSchedule();
             } else if (desiredOption == 4) {
 
             } else if (desiredOption == 5) {
@@ -159,7 +164,7 @@ public class User {
             System.out.println("\n\t\t(a) Press 0 to Exit.");
             System.out.println("\t\t(b) Press 1 to Login.");
             System.out.println("\t\t(c) Press 2 to Register.");
-            System.out.println("\t\t(d) Press 3 to Book a Ticket.");
+            System.out.println("\t\t(d) Press 3 to display all available Flights.");
             System.out.println("\t\t(e) Press 4 to Reserve a Ticket.");
             System.out.print("\n\t\t\t\tEnter the desired option:    ");
             desiredOption = read1.nextInt();
@@ -168,7 +173,7 @@ public class User {
                 desiredOption = read1.nextInt();
             }
         } while (desiredOption != 0);
-        System.out.printf("%n%-50sFlying with Trust since a Millennium...!\n\n\n","");
+        System.out.printf("%n%-50sFlying with Trust for Five Decades ...!\n\n\n", "");
     }
 
 

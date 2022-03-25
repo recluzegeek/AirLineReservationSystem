@@ -1,7 +1,7 @@
-public class RolesAndPermissions {
-    private static final String[][] usernamesAndPasswords = User.getUsernameAndPassword();
+public class RolesAndPermissions extends User {
+    private final String[][] usernamesAndPasswords = getUsernameAndPassword();
 
-    public static int isPrivilegedUserOrNot(String username, String password) {
+    public int isPrivilegedUserOrNot(String username, String password) {
         int isFound = -1;
         for (int i = 0; i < usernamesAndPasswords.length ; i++) {
             if (username.equals(usernamesAndPasswords[i][0])) {

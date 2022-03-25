@@ -7,7 +7,17 @@ public class Customer extends User {
     private final String phone;
     private final String address;
     private final int age;
-    private static final List<Customer> customerCollection = User.getCustomersCollection();
+    public final List<Customer> customerCollection = User.getCustomersCollection();
+
+    /*  0-Argument constructor of Customer class*/
+    Customer() {
+        this.userID = null;
+        this.name = null;
+        this.email = null;
+        this.phone = null;
+        this.address = null;
+        this.age = 0;
+    }
 
     Customer(String name, String email, String phone, String address, int age) {
         RandomGenerator random = new RandomGenerator();
@@ -20,6 +30,7 @@ public class Customer extends User {
         this.age = age;
     }
 
+    /*Overloaded Constructor having an extra parameter of userID*/
     Customer(String name, String email, String phone, String address, int age, String userID) {
         this.name = name;
         this.userID = userID;
@@ -35,6 +46,7 @@ public class Customer extends User {
     }
 
     public static void addNew() {
+        Customer c1 = new Customer();
         Scanner read = new Scanner(System.in);
         System.out.print("\nEnter the name of the Passenger:\t");
         String name = read.nextLine();
@@ -46,7 +58,7 @@ public class Customer extends User {
         String address = read.nextLine();
         System.out.print("Enter the age of Passenger " + name + ":\t");
         int age = read.nextInt();
-        customerCollection.add(new Customer(name, email, phone, address, age));
+        c1.customerCollection.add(new Customer(name, email, phone, address, age));
     }
 
     private String toString(int i) {
@@ -54,10 +66,11 @@ public class Customer extends User {
     }
 
     public static void searchUser(String ID) {
+        Customer c1 = new Customer();
         boolean isFound = false;
         /*Initializing customerWithTheID to the states of the first obj present in the customerCollection*/
-        Customer customerWithTheID = customerCollection.get(0);
-        for (Customer c : customerCollection) {
+        Customer customerWithTheID = c1.customerCollection.get(0);
+        for (Customer c : c1.customerCollection) {
             if (ID.equals(c.getUserID())) {
                 isFound = true;
                 customerWithTheID = c;
@@ -73,10 +86,10 @@ public class Customer extends User {
     }
 
     public static void editUserInfo(String ID) {
+        Customer c1 = new Customer();
         boolean isFound = false;
-//        Customer customerWithTheID = customerCollection.get(0);
         Scanner read = new Scanner(System.in);
-        ListIterator<Customer> listIterator = customerCollection.listIterator();
+        ListIterator<Customer> listIterator = c1.customerCollection.listIterator();
         while (listIterator.hasNext()) {
             Customer c = listIterator.next();
             if (ID.equals(c.getUserID())) {
@@ -103,8 +116,9 @@ public class Customer extends User {
     }
 
     public static void deleteUser(String ID) {
+        Customer c1 = new Customer();
         boolean isFound = false;
-        Iterator<Customer> iterator = customerCollection.iterator();
+        Iterator<Customer> iterator = c1.customerCollection.iterator();
         while (iterator.hasNext()) {
             Customer customer = iterator.next();
             if (ID.equals(customer.getUserID())) {
@@ -119,11 +133,11 @@ public class Customer extends User {
         } else {
             System.out.printf("%-50sNo Customer with the ID %s Found...!!!\n", " ", ID);
         }
-//        customerCollection.removeIf(customer -> ID.equals(customer.getUserID()));
     }
 
     public static void display() {
-        Iterator<Customer> iterator = customerCollection.iterator();
+        Customer c1 = new Customer();
+        Iterator<Customer> iterator = c1.customerCollection.iterator();
         System.out.println();
         System.out.print("+------------+------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+\n");
         System.out.printf("| SerialNum  | UserID\t  | Passenger Names                  | Age     | EmailID\t\t     | Home Address\t\t\t   | Phone Number\t     |%n");
