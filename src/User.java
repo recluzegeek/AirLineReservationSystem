@@ -2,6 +2,7 @@
  * to perform the first-level implementation of the project like calling the login-method, registering user etc....
  *  */
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -25,7 +26,7 @@ public class User {
         return customersCollection;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
         Flight f1 = new Flight();
         f1.flightScheduler();
 //        Main Menu
@@ -156,6 +157,7 @@ public class User {
                 countNumOfUsers++;
             } else if (desiredOption == 3) {
                 f1.displayFlightSchedule();
+                f1.distanceMeasurementInstructions();
             } else if (desiredOption == 4) {
 
             } else if (desiredOption == 5) {
