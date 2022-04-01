@@ -12,4 +12,10 @@ public class RolesAndPermissions extends User {
         }
         return isFound;
     }
+
+    public int isPassengerRegistered(String userName, String password){
+        int isFound = -1;
+
+        return isFound;
+    }
 }

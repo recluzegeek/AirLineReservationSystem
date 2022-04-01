@@ -2,7 +2,6 @@
  * to perform the first-level implementation of the project like calling the login-method, registering user etc....
  *  */
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -11,7 +10,7 @@ public class User {
 
     private static int countNumOfUsers = 1;
     /*2D Array to store credentials.... Default credentials are stored on 0 index....Max num of users can be 10....*/
-    private static String[][] usernameAndPassword = new String[10][2];
+    private static final String[][] usernameAndPassword = new String[10][2];
 
     /*Getter method for the 2D Array to be accessed in RolesAndPermission class*/
     public String[][] getUsernameAndPassword() {
@@ -19,26 +18,22 @@ public class User {
     }
 
     /*Created a List of Customer Class using the name of customersCollection */
-    private static List<Customer> customersCollection = new ArrayList<>();
+    private static final List<Customer> customersCollection = new ArrayList<>();
 
     /*Getter Method for the customersCollection List to be accessed in Customer.java Class..*/
     public static List<Customer> getCustomersCollection() {
         return customersCollection;
     }
 
-    public static void main(String[] args) throws ParseException {
+    public static void main(String[] args) {
         Flight f1 = new Flight();
+        Customer c1 = new Customer();
         f1.flightScheduler();
 //        Main Menu
         Scanner read = new Scanner(System.in);
         System.out.println("\n\t\t\t\t\t+++++++++++++ Welcome to BAV AirLines +++++++++++++\n\nTo Further Proceed, Please enter a value.");
         System.out.println("\n***** Default Username && Password is root-root ***** Using Default Credentials will restrict you to just view the list of Passengers....\n");
-        System.out.println("\t\t(a) Press 0 to Exit.");
-        System.out.println("\t\t(b) Press 1 to Login.");
-        System.out.println("\t\t(c) Press 2 to Register.");
-        System.out.println("\t\t(d) Press 3 to display all available Flights.");
-        System.out.println("\t\t(e) Press 4 to Reserve a Ticket.");
-        System.out.print("\t\tEnter the desired option:    ");
+        displayMenu();
         int desiredOption = read.nextInt();
         /*Doing Input-Validation*/
         while (desiredOption < 0 || desiredOption > 8) {
@@ -71,7 +66,7 @@ public class User {
                 } else if (r1.isPrivilegedUserOrNot(username, password) == 0) {
                     System.out.println("You've standard/default privileges to access the data... You can just view customers data..." +
                             "Can't perform any actions on them....");
-                    Customer.display();
+                    c1.display();
                 } else {
                     System.out.printf("%-20sLogged in Successfully as %s..... For further Proceedings, enter a value from below....", "", username);
 
@@ -90,7 +85,7 @@ public class User {
                         desiredOption = read.nextInt();
                         /*If 1 is entered by the privileged user, then add a new customer......*/
                         if (desiredOption == 1) {
-                            Customer.addNew();
+                            c1.addNew();
                         } else if (desiredOption == 2) {
                             /*If 2 is entered by the privileged user, then call the search method of the Customer class*/
                             System.out.print("Enter the CustomerID to Search :\t");
@@ -100,7 +95,7 @@ public class User {
                             System.out.printf("| SerialNum  | UserID\t  | Passenger Name                   | Age     | EmailID\t\t     | Home Address\t\t\t   | Phone Number\t     |%n");
                             System.out.print("+------------+------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+\n");
                             if (customersCollection.size() > 0) {
-                                Customer.searchUser(customerID);
+                                c1.searchUser(customerID);
                             } else {
                                 System.out.printf("%-50sNo Customer with the ID %s Found...!!!\n", " ", customerID);
                             }
@@ -112,7 +107,7 @@ public class User {
                             System.out.print("Enter the CustomerID to Update its Data :\t");
                             String customerID = read1.nextLine();
                             if (customersCollection.size() > 0) {
-                                Customer.editUserInfo(customerID);
+                                c1.editUserInfo(customerID);
                             } else {
                                 System.out.printf("%-50sNo Customer with the ID %s Found...!!!\n", " ", customerID);
                             }
@@ -124,13 +119,13 @@ public class User {
                             System.out.print("Enter the CustomerID to Delete its Data :\t");
                             String customerID = read1.nextLine();
                             if (customersCollection.size() > 0) {
-                                Customer.deleteUser(customerID);
+                                c1.deleteUser(customerID);
                             } else {
                                 System.out.printf("%-50sNo Customer with the ID %s Found...!!!\n", " ", customerID);
                             }
                         } else if (desiredOption == 5) {
                             /*Call the Display Method of Customer Class....*/
-                            Customer.display();
+                            c1.display();
                         } else if (desiredOption == 0) {
                             System.out.println("Thanks for Using BAV Airlines Ticketing System...!!!");
                         } else {
@@ -156,19 +151,15 @@ public class User {
                 /*Incrementing the numOfUsers */
                 countNumOfUsers++;
             } else if (desiredOption == 3) {
-                f1.displayFlightSchedule();
-                f1.distanceMeasurementInstructions();
+                c1.addNew();
             } else if (desiredOption == 4) {
 
             } else if (desiredOption == 5) {
+                f1.displayFlightSchedule();
+                f1.distanceMeasurementInstructions();
             }
 
-            System.out.println("\n\t\t(a) Press 0 to Exit.");
-            System.out.println("\t\t(b) Press 1 to Login.");
-            System.out.println("\t\t(c) Press 2 to Register.");
-            System.out.println("\t\t(d) Press 3 to display all available Flights.");
-            System.out.println("\t\t(e) Press 4 to Reserve a Ticket.");
-            System.out.print("\n\t\t\t\tEnter the desired option:    ");
+            displayMenu();
             desiredOption = read1.nextInt();
             while (desiredOption < 0 || desiredOption > 8) {
                 System.out.print("ERROR!! Please enter value between 0 - 4. Enter the value again :\t");
@@ -178,5 +169,14 @@ public class User {
         System.out.printf("%n%-50sFlying with Trust for Five Decades ...!\n\n\n", "");
     }
 
-
+    static void displayMenu() {
+        System.out.println("\n\n\t\t(a) Press 0 to Exit.");
+        System.out.println("\t\t(b) Press 1 to Login as admin.");
+        System.out.println("\t\t(c) Press 2 to Register as admin.");
+        System.out.println("\t\t(b) Press 3 to Login as Passenger.");
+        System.out.println("\t\t(c) Press 4 to Register as Passenger.");
+        System.out.println("\t\t(d) Press 5 to display all available Flights.");
+        System.out.println("\t\t(e) Press 6 to Reserve a Ticket.");
+        System.out.print("\t\tEnter the desired option:    ");
+    }
 }

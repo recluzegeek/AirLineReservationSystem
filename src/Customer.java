@@ -5,6 +5,7 @@ public class Customer extends User {
     private final String name;
     private final String email;
     private final String phone;
+    private final String password;
     private final String address;
     private final int age;
     public final List<Customer> customerCollection = User.getCustomersCollection();
@@ -14,27 +15,30 @@ public class Customer extends User {
         this.userID = null;
         this.name = null;
         this.email = null;
+        this.password = null;
         this.phone = null;
         this.address = null;
         this.age = 0;
     }
 
-    Customer(String name, String email, String phone, String address, int age) {
+    Customer(String name, String email, String password, String phone, String address, int age) {
         RandomGenerator random = new RandomGenerator();
         random.randomIDGen();
         this.name = name;
         this.userID = random.getRandomNumber();
         this.email = email;
+        this.password = password;
         this.phone = phone;
         this.address = address;
         this.age = age;
     }
 
     /*Overloaded Constructor having an extra parameter of userID*/
-    Customer(String name, String email, String phone, String address, int age, String userID) {
+    Customer(String name, String email, String password, String phone, String address, int age, String userID) {
         this.name = name;
         this.userID = userID;
         this.email = email;
+        this.password = password;
         this.phone = phone;
         this.address = address;
         this.age = age;
@@ -45,27 +49,29 @@ public class Customer extends User {
         return userID;
     }
 
-    public static void addNew() {
+    public void addNew() {
         Customer c1 = new Customer();
         Scanner read = new Scanner(System.in);
-        System.out.print("\nEnter the name of the Passenger:\t");
+        System.out.print("\nEnter your name :\t");
         String name = read.nextLine();
-        System.out.print("Enter the email address of Passenger " + name + ":\t");
+        System.out.print("Enter your email address" + name + ":\t");
         String email = read.nextLine();
-        System.out.print("Enter the Phone number of Passenger " + name + ":\t");
+        System.out.println("Enter your Password :\t");
+        String password = read.nextLine();
+        System.out.print("Enter your Phone number" + name + ":\t");
         String phone = read.nextLine();
-        System.out.print("Enter the address of Passenger " + name + ":\t");
+        System.out.print("Enter your address " + name + ":\t");
         String address = read.nextLine();
-        System.out.print("Enter the age of Passenger " + name + ":\t");
+        System.out.print("Enter your age " + name + ":\t");
         int age = read.nextInt();
-        c1.customerCollection.add(new Customer(name, email, phone, address, age));
+        c1.customerCollection.add(new Customer(name, email, password, phone, address, age));
     }
 
     private String toString(int i) {
         return String.format("| %-10d | %-10s | %-32s | %-7s | %-27s | %-35s | %-23s |", i, userID, name, age, email, address, phone);
     }
 
-    public static void searchUser(String ID) {
+    public void searchUser(String ID) {
         Customer c1 = new Customer();
         boolean isFound = false;
         /*Initializing customerWithTheID to the states of the first obj present in the customerCollection*/
@@ -85,7 +91,7 @@ public class Customer extends User {
         }
     }
 
-    public static void editUserInfo(String ID) {
+    public void editUserInfo(String ID) {
         Customer c1 = new Customer();
         boolean isFound = false;
         Scanner read = new Scanner(System.in);
@@ -108,14 +114,14 @@ public class Customer extends User {
             String address = read.nextLine();
             System.out.print("Enter the new age of Passenger " + name + ":\t");
             int age = read.nextInt();
-            listIterator.set(new Customer(name, email, phone, address, age, ID));
+            listIterator.set(new Customer(name, email, password, phone, address, age, ID));
             display();
         } else {
             System.out.printf("%-50sNo Customer with the ID %s Found...!!!\n", " ", ID);
         }
     }
 
-    public static void deleteUser(String ID) {
+    public void deleteUser(String ID) {
         Customer c1 = new Customer();
         boolean isFound = false;
         Iterator<Customer> iterator = c1.customerCollection.iterator();
@@ -129,13 +135,13 @@ public class Customer extends User {
         if (isFound) {
             iterator.remove();
             System.out.printf("\n%-50sPrinting all  Customer's Data after deleting Customer with the ID %s.....!!!!\n", "", ID);
-            Customer.display();
+            display();
         } else {
             System.out.printf("%-50sNo Customer with the ID %s Found...!!!\n", " ", ID);
         }
     }
 
-    public static void display() {
+    public void display() {
         Customer c1 = new Customer();
         Iterator<Customer> iterator = c1.customerCollection.iterator();
         System.out.println();
