@@ -1,9 +1,11 @@
+import java.util.ListIterator;
+
 public class RolesAndPermissions extends User {
     private final String[][] usernamesAndPasswords = getUsernameAndPassword();
 
     public int isPrivilegedUserOrNot(String username, String password) {
         int isFound = -1;
-        for (int i = 0; i < usernamesAndPasswords.length ; i++) {
+        for (int i = 0; i < usernamesAndPasswords.length; i++) {
             if (username.equals(usernamesAndPasswords[i][0])) {
                 if (password.equals(usernamesAndPasswords[i][1])) {
                     isFound = i;
@@ -13,9 +15,20 @@ public class RolesAndPermissions extends User {
         return isFound;
     }
 
-    public int isPassengerRegistered(String userName, String password){
-        int isFound = -1;
-
+    public String isPassengerRegistered(String userName, String password) {
+        String isFound = "-1";
+        Customer c1 = new Customer();
+        /*Initializing customerWithTheID to the states of the first obj present in the customerCollection*/
+//        boolean isFound = false;
+//        Scanner read = new Scanner(System.in);
+        for (Customer c : c1.customerCollection) {
+            if (userName.equals(c.getName())) {
+                if (password.equals(c.getPassword())) {
+                    isFound = "1-" + c.getUserID();
+                    break;
+                }
+            }
+        }
         return isFound;
     }
 }

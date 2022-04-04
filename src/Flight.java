@@ -171,7 +171,7 @@ public class Flight {
 
     public String createNewFlightsAndTime() {
         Calendar c = Calendar.getInstance();
-        nextDays += Math.random() * 10;
+        nextDays += Math.random() * 5;
         c.add(Calendar.DATE, nextDays);
         c.add(Calendar.HOUR, nextDays);
         c.set(Calendar.MINUTE, ((c.get(Calendar.MINUTE) * 3) - (int) (Math.random() * 45)));

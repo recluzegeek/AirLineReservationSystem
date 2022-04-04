@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class User {
+public class User extends Customer {
 
     private static int countNumOfUsers = 1;
     /*2D Array to store credentials.... Default credentials are stored on 0 index....Max num of users can be 10....*/
@@ -26,6 +26,7 @@ public class User {
     }
 
     public static void main(String[] args) {
+        RolesAndPermissions r1 = new RolesAndPermissions();
         Flight f1 = new Flight();
         Customer c1 = new Customer();
         f1.flightScheduler();
@@ -48,7 +49,7 @@ public class User {
              * data is found then show the user display menu for adding, updating, deleting and searching users/customers...
              * */
             if (desiredOption == 1) {
-                RolesAndPermissions r1 = new RolesAndPermissions();
+
                 /*Setting the default username and password....*/
                 usernameAndPassword[0][0] = "root";
                 usernameAndPassword[0][1] = "root";
@@ -64,8 +65,7 @@ public class User {
                 if (r1.isPrivilegedUserOrNot(username, password) == -1) {
                     System.out.println("ERROR!!! Cannot find user with the entered credentials.... Try Creating New Credentials or get yourself register by pressing 2....");
                 } else if (r1.isPrivilegedUserOrNot(username, password) == 0) {
-                    System.out.println("You've standard/default privileges to access the data... You can just view customers data..." +
-                            "Can't perform any actions on them....");
+                    System.out.println("You've standard/default privileges to access the data... You can just view customers data..." + "Can't perform any actions on them....");
                     c1.display();
                 } else {
                     System.out.printf("%-20sLogged in Successfully as %s..... For further Proceedings, enter a value from below....", "", username);
@@ -74,14 +74,7 @@ public class User {
                      * Reading(Searching) and deleting a customer....
                      * */
                     do {
-                        System.out.printf("\n%-40s+++++++++ 2nd Layer Menu +++++++++\n", "");
-                        System.out.printf("%-30s (a) Enter 1 to add new Passenger....\n", "");
-                        System.out.printf("%-30s (b) Enter 2 to search a Passenger....\n", "");
-                        System.out.printf("%-30s (c) Enter 3 to update the Data of the Passenger....\n", "");
-                        System.out.printf("%-30s (d) Enter 4 to delete a Passenger....\n", "");
-                        System.out.printf("%-30s (e) Enter 5 to Display all Passengers....\n", "");
-                        System.out.printf("%-30s (f) Enter 0 to Go back to the Main Menu/Logout....\n", "");
-                        System.out.print("Enter the desired Choice :   ");
+                        display2ndLayerMenu();
                         desiredOption = read.nextInt();
                         /*If 1 is entered by the privileged user, then add a new customer......*/
                         if (desiredOption == 1) {
@@ -151,13 +144,45 @@ public class User {
                 /*Incrementing the numOfUsers */
                 countNumOfUsers++;
             } else if (desiredOption == 3) {
-                c1.addNew();
-            } else if (desiredOption == 4) {
+                System.out.print("\n\nEnter the UserName to Login : \t");
+                String userName = read1.nextLine();
+                System.out.print("Enter the Password : \t");
+                String password = read1.nextLine();
+                String[] result = r1.isPassengerRegistered(userName, password).split("-");
 
-            } else if (desiredOption == 5) {
+                if (Integer.parseInt(result[0]) == 1) {
+                    int desiredChoice = 1;
+                    System.out.printf("\n\n%-20sLogged in Successfully as %s..... For further Proceedings, enter a value from below....", "", userName);
+                    do {
+                        display3rdLayerMenu();
+                        desiredChoice = read.nextInt();
+                        if (desiredChoice == 1) {
+                            f1.displayFlightSchedule();
+                            System.out.print("Enter the desired flight number to book...");
+                            String flightToBeBooked = read1.nextLine();
+
+                        } else if (desiredChoice == 2) {
+                            c1.editUserInfo(result[1]);
+                        } else if (desiredChoice == 3) {
+                            System.out.println("Choice 3 is Selected...");
+                        } else if (desiredChoice == 4) {
+                            f1.displayFlightSchedule();
+                        } else {
+                            System.out.println("Invalid Choice...Looks like you're Robot...Entering values randomly...You've Have to login again...");
+                            desiredChoice = 0;
+                        }
+                    } while (desiredChoice != 0);
+
+                } else {
+                    System.out.println("Unable to Login");
+                }
+            } else if (desiredOption == 4) {
+                c1.addNew();
+
+            } /*else if (desiredOption == 5) {
                 f1.displayFlightSchedule();
                 f1.distanceMeasurementInstructions();
-            }
+            }*/
 
             displayMenu();
             desiredOption = read1.nextInt();
@@ -169,14 +194,38 @@ public class User {
         System.out.printf("%n%-50sFlying with Trust for Five Decades ...!\n\n\n", "");
     }
 
+
+    static void display3rdLayerMenu() {
+        System.out.printf("\n\n%-60s+++++++++ 3rd Layer Menu +++++++++\n", "");
+        System.out.printf("%-40s (a) Enter 1 to Book a flight....\n", "");
+        System.out.printf("%-40s (b) Enter 2 to update your Data....\n", "");
+        System.out.printf("%-40s (c) Enter 3 to delete your account....\n", "");
+        System.out.printf("%-40s (d) Enter 4 to Display Flight Schedule....\n", "");
+        System.out.printf("%-40s (e) Enter 0 to Go back to the Main Menu/Logout....\n", "");
+        System.out.print("Enter the desired Choice :   ");
+
+    }
+
+    static void display2ndLayerMenu() {
+        System.out.printf("\n%-40s+++++++++ 2nd Layer Menu +++++++++\n", "");
+        System.out.printf("%-30s (a) Enter 1 to add new Passenger....\n", "");
+        System.out.printf("%-30s (b) Enter 2 to search a Passenger....\n", "");
+        System.out.printf("%-30s (c) Enter 3 to update the Data of the Passenger....\n", "");
+        System.out.printf("%-30s (d) Enter 4 to delete a Passenger....\n", "");
+        System.out.printf("%-30s (e) Enter 5 to Display all Passengers....\n", "");
+        System.out.printf("%-30s (f) Enter 0 to Go back to the Main Menu/Logout....\n", "");
+        System.out.print("Enter the desired Choice :   ");
+    }
+
+
     static void displayMenu() {
         System.out.println("\n\n\t\t(a) Press 0 to Exit.");
         System.out.println("\t\t(b) Press 1 to Login as admin.");
         System.out.println("\t\t(c) Press 2 to Register as admin.");
         System.out.println("\t\t(b) Press 3 to Login as Passenger.");
         System.out.println("\t\t(c) Press 4 to Register as Passenger.");
-        System.out.println("\t\t(d) Press 5 to display all available Flights.");
-        System.out.println("\t\t(e) Press 6 to Reserve a Ticket.");
+//        System.out.println("\t\t(d) Press 5 to display all available Flights.");
+//        System.out.println("\t\t(e) Press 6 to Reserve a Ticket.");
         System.out.print("\t\tEnter the desired option:    ");
     }
 }

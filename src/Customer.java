@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Customer extends User {
+public class Customer {
     private final String userID;
     private final String name;
     private final String email;
@@ -33,6 +33,14 @@ public class Customer extends User {
         this.age = age;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
     /*Overloaded Constructor having an extra parameter of userID*/
     Customer(String name, String email, String password, String phone, String address, int age, String userID) {
         this.name = name;
@@ -54,15 +62,15 @@ public class Customer extends User {
         Scanner read = new Scanner(System.in);
         System.out.print("\nEnter your name :\t");
         String name = read.nextLine();
-        System.out.print("Enter your email address" + name + ":\t");
+        System.out.print("Enter your email address :\t");
         String email = read.nextLine();
-        System.out.println("Enter your Password :\t");
+        System.out.print("Enter your Password :\t");
         String password = read.nextLine();
-        System.out.print("Enter your Phone number" + name + ":\t");
+        System.out.print("Enter your Phone number :\t");
         String phone = read.nextLine();
-        System.out.print("Enter your address " + name + ":\t");
+        System.out.print("Enter your address :\t");
         String address = read.nextLine();
-        System.out.print("Enter your age " + name + ":\t");
+        System.out.print("Enter your age :\t");
         int age = read.nextInt();
         c1.customerCollection.add(new Customer(name, email, password, phone, address, age));
     }
