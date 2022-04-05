@@ -1,5 +1,3 @@
-import java.util.ListIterator;
-
 public class RolesAndPermissions extends User {
     private final String[][] usernamesAndPasswords = getUsernameAndPassword();
 
@@ -16,11 +14,9 @@ public class RolesAndPermissions extends User {
     }
 
     public String isPassengerRegistered(String userName, String password) {
-        String isFound = "-1";
+        String isFound = "0";
         Customer c1 = new Customer();
         /*Initializing customerWithTheID to the states of the first obj present in the customerCollection*/
-//        boolean isFound = false;
-//        Scanner read = new Scanner(System.in);
         for (Customer c : c1.customerCollection) {
             if (userName.equals(c.getName())) {
                 if (password.equals(c.getPassword())) {

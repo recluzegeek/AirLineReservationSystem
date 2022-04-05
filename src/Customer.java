@@ -64,6 +64,13 @@ public class Customer {
         String name = read.nextLine();
         System.out.print("Enter your email address :\t");
         String email = read.nextLine();
+        while (isUniqueData(name, email)) {
+            System.out.println("ERROR!!! User with the same username/email already exists... Use another username/email....");
+            System.out.print("\nEnter your name :\t");
+            name = read.nextLine();
+            System.out.print("Enter your email address :\t");
+            email = read.nextLine();
+        }
         System.out.print("Enter your Password :\t");
         String password = read.nextLine();
         System.out.print("Enter your Phone number :\t");
@@ -99,6 +106,24 @@ public class Customer {
         }
     }
 
+
+
+    public String getEmail() {
+        return email;
+    }
+
+    public boolean isUniqueData(String userName, String emailID) {
+        Customer c1 = new Customer();
+        boolean isUnique = false;
+        for (Customer c : c1.customerCollection) {
+            if (userName.equals(c.getName()) || emailID.equals(c.getEmail())) {
+                isUnique = true;
+                break;
+            }
+        }
+        return isUnique;
+    }
+
     public void editUserInfo(String ID) {
         Customer c1 = new Customer();
         boolean isFound = false;
@@ -116,6 +141,7 @@ public class Customer {
             String name = read.nextLine();
             System.out.print("Enter the new email address of Passenger " + name + ":\t");
             String email = read.nextLine();
+
             System.out.print("Enter the new Phone number of Passenger " + name + ":\t");
             String phone = read.nextLine();
             System.out.print("Enter the new address of Passenger " + name + ":\t");

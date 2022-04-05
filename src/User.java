@@ -154,19 +154,25 @@ public class User extends Customer {
                     int desiredChoice = 1;
                     System.out.printf("\n\n%-20sLogged in Successfully as %s..... For further Proceedings, enter a value from below....", "", userName);
                     do {
-                        display3rdLayerMenu();
+                        display3rdLayerMenu(userName);
                         desiredChoice = read.nextInt();
                         if (desiredChoice == 1) {
+                            FlightBookingAndReserving flightBookingAndReserving = new FlightBookingAndReserving();
                             f1.displayFlightSchedule();
-                            System.out.print("Enter the desired flight number to book...");
+                            System.out.print("\nEnter the desired flight number to book :\t ");
                             String flightToBeBooked = read1.nextLine();
-
+                            System.out.print("Enter the Number of tickets for " + flightToBeBooked +" flight :   ");
+                            int numOfTickets =  read.nextInt();
+                            flightBookingAndReserving.bookFlight(flightToBeBooked,numOfTickets);
                         } else if (desiredChoice == 2) {
                             c1.editUserInfo(result[1]);
                         } else if (desiredChoice == 3) {
-                            System.out.println("Choice 3 is Selected...");
+                            c1.deleteUser(result[1]);
+                            System.out.printf("User %s's account deleted Successfully...!!!", userName);
+                            desiredChoice = 0;
                         } else if (desiredChoice == 4) {
                             f1.displayFlightSchedule();
+                            f1.distanceMeasurementInstructions();
                         } else {
                             System.out.println("Invalid Choice...Looks like you're Robot...Entering values randomly...You've Have to login again...");
                             desiredChoice = 0;
@@ -178,11 +184,7 @@ public class User extends Customer {
                 }
             } else if (desiredOption == 4) {
                 c1.addNew();
-
-            } /*else if (desiredOption == 5) {
-                f1.displayFlightSchedule();
-                f1.distanceMeasurementInstructions();
-            }*/
+            }
 
             displayMenu();
             desiredOption = read1.nextInt();
@@ -195,8 +197,8 @@ public class User extends Customer {
     }
 
 
-    static void display3rdLayerMenu() {
-        System.out.printf("\n\n%-60s+++++++++ 3rd Layer Menu +++++++++\n", "");
+    static void display3rdLayerMenu(String name) {
+        System.out.printf("\n\n%-60s+++++++++ 3rd Layer Menu +++++++++%50sLogged in as %s\n", "", "", name);
         System.out.printf("%-40s (a) Enter 1 to Book a flight....\n", "");
         System.out.printf("%-40s (b) Enter 2 to update your Data....\n", "");
         System.out.printf("%-40s (c) Enter 3 to delete your account....\n", "");

@@ -16,12 +16,23 @@ public class Flight {
     private double distanceInKm;
     private String flightTime;
     private String arrivalTime;
-    private final int noOfSeatsInTheFlight;
+    private int noOfSeatsInTheFlight;
 
-    private static final int numOfFlights = 30;
+    private static final int numOfFlights = 15;
     private static int nextDays = 0;
-    private final List<Flight> flightList = new ArrayList<>();
+    private static List<Flight> flightList = new ArrayList<>();
 
+    public int getNoOfSeats() {
+        return noOfSeatsInTheFlight;
+    }
+
+    public String getFlightNumber() {
+        return flightNumber;
+    }
+
+    public void setNoOfSeatsInTheFlight(int noOfSeatsInTheFlight) {
+        this.noOfSeatsInTheFlight = noOfSeatsInTheFlight;
+    }
 
     Flight() {
         this.flightSchedule = null;
@@ -47,7 +58,7 @@ public class Flight {
 
     public void distanceMeasurementInstructions() {
         String symbols = "+---------------------------+";
-        System.out.printf("\n\n %100s\n %100s", symbols,"| SOME IMPORTANT GUIDELINES |");
+        System.out.printf("\n\n %100s\n %100s", symbols, "| SOME IMPORTANT GUIDELINES |");
         System.out.printf("\n %100s\n", symbols);
         System.out.println("\n\t\t1. Distance between the destinations are based upon the Airports Coordinates(Latitudes && Longitudes) based in those cities");
         System.out.println("\t\t2. Actual Distance of the flight may vary from this approximation as Airlines may define their on Travel Policy that may restrict the planes to fly through specific regions.");
@@ -58,6 +69,10 @@ public class Flight {
 
     public String getFlightTime() {
         return flightTime;
+    }
+
+    public List<Flight> getFlightList() {
+        return flightList;
     }
 
     public String fetchArrivalTime() {
@@ -149,10 +164,11 @@ public class Flight {
 
 
     public void displayFlightSchedule() {
+
         Iterator<Flight> flightIterator = flightList.iterator();
         System.out.println();
         System.out.print("+------+-------------------------------------------+-----------+------------------+-----------------------+------------------------+---------------------------+-------------+--------+------------------------+\n");
-        System.out.printf("| Num  | FLIGHT SCHEDULE\t\t\t   | FLIGHT NO | TOTAL PASSENGERS | \tFROM ====>>       | \t====>> TO\t   | \t    ARRIVAL TIME       | FLIGHT TIME |  GATE  |   DISTANCE(MILES/KMS)  |%n");
+        System.out.printf("| Num  | FLIGHT SCHEDULE\t\t\t   | FLIGHT NO | Available Seats  | \tFROM ====>>       | \t====>> TO\t   | \t    ARRIVAL TIME       | FLIGHT TIME |  GATE  |   DISTANCE(MILES/KMS)  |%n");
         System.out.print("+------+-------------------------------------------+-----------+------------------+-----------------------+------------------------+---------------------------+-------------+--------+------------------------+\n");
         int i = 0;
         while (flightIterator.hasNext()) {
