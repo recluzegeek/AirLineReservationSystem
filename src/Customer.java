@@ -63,7 +63,7 @@ public class Customer {
         return name;
     }
 
-    /*Overloaded Constructor having an extra parameter of userID*/
+    /*Overloaded Constructor having an extra parameter of userID using for editUserInfo() method....*/
     Customer(String name, String email, String password, String phone, String address, int age, String userID, Flight[] flightsRegisteredByUser, int numOfFlights) {
         this.name = name;
         this.userID = userID;
@@ -105,6 +105,18 @@ public class Customer {
         System.out.print("Enter your age :\t");
         int age = read.nextInt();
         c1.customerCollection.add(new Customer(name, email, password, phone, address, age));
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public int getAge() {
+        return age;
     }
 
     private String toString(int i) {

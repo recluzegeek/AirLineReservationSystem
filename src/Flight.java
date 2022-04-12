@@ -5,12 +5,28 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
-public class Flight extends User{
+public class Flight extends User {
 
     private final String flightSchedule;
     private final String flightNumber;
     private final String fromWhichCity;
     private final String gate;
+    private final String toWhichCity;
+    private double distanceInMiles;
+    private double distanceInKm;
+    private String flightTime;
+    private String arrivalTime;
+    private int noOfSeatsInTheFlight;
+    private Customer[] customersInTheFlight;
+    private int numberOfCustomers;
+
+    public int getNumberOfCustomers() {
+        return numberOfCustomers;
+    }
+
+    public Customer[] getCustomersInTheFlight() {
+        return customersInTheFlight;
+    }
 
     public String getFlightSchedule() {
         return flightSchedule;
@@ -36,12 +52,6 @@ public class Flight extends User{
         return noOfSeatsInTheFlight;
     }
 
-    private final String toWhichCity;
-    private double distanceInMiles;
-    private double distanceInKm;
-    private String flightTime;
-    private String arrivalTime;
-    private int noOfSeatsInTheFlight;
 
     private static final int numOfFlights = 10;
     private static int nextDays = 0;
@@ -63,6 +73,7 @@ public class Flight extends User{
         this.noOfSeatsInTheFlight = noOfSeatsInTheFlight;
     }
 
+    //
     Flight() {
         this.flightSchedule = null;
         this.flightNumber = null;
@@ -70,6 +81,13 @@ public class Flight extends User{
         toWhichCity = null;
         fromWhichCity = null;
         this.gate = null;
+//        this.customersInTheFlight = new Customer[getCustomersCollection().size()];
+//        this.numberOfCustomers = 0;
+    }
+
+    void addCustomerToFlight(Customer customer) {
+        this.customersInTheFlight[numberOfCustomers] = customer;
+        ++numberOfCustomers;
     }
 
     Flight(String flightSchedule, String flightNumber, int noOfSeatsInTheFlight, String[][] chosenDestinations, String[] distanceBetweenTheCities, String gate) {
@@ -82,6 +100,8 @@ public class Flight extends User{
         this.distanceInKm = Double.parseDouble(distanceBetweenTheCities[1]);
         this.flightTime = calculateFlightTime(distanceInMiles);
         this.arrivalTime = fetchArrivalTime();
+        this.customersInTheFlight = new Customer[noOfSeatsInTheFlight];
+        this.numberOfCustomers = 0;
         this.gate = gate;
     }
 

@@ -12,7 +12,7 @@ public class User {
     /*2D Array to store credentials.... Default credentials are stored on 0 index....Max num of users can be 10....*/
     private static final String[][] usernameAndPassword = new String[10][2];
 
-    public final List<Flight> flightsRegisteredByCustomer = new ArrayList<>();
+//    public final List<Flight> flightsRegisteredByCustomer = new ArrayList<>();
 
 //
 //    public List<Flight> getFlightsRegisteredByCustomer() {
@@ -25,7 +25,7 @@ public class User {
     }
 
     /*Created a List of Customer Class using the name of customersCollection */
-    private static final List<Customer> customersCollection = new ArrayList<>();
+    public static final List<Customer> customersCollection = new ArrayList<>();
 
     /*Getter Method for the customersCollection List to be accessed in Customer.java Class..*/
     public static List<Customer> getCustomersCollection() {
@@ -127,6 +127,20 @@ public class User {
                         } else if (desiredOption == 5) {
                             /*Call the Display Method of Customer Class....*/
                             c1.display();
+                        } else if (desiredOption == 6) {
+                            System.out.print("Do you want to display Passengers of all flights or a specific flight.... 'Y/y' for displaying all flights and 'N/n' to look for a" +
+                                    " specific flight.... ");
+                            char choice = read1.nextLine().charAt(0);
+                            if ('y' == choice || 'Y' == choice) {
+                                bookingAndReserving.displayRegisteredUsersForFlight();
+                            } else if ('n' == choice || 'N' == choice) {
+                                f1.displayFlightSchedule();
+                                System.out.print("Enter the Flight Number to display the list of passengers registered in that flight... ");
+                                String flightNum = read1.nextLine();
+                                bookingAndReserving.displayRegisteredUsersForFlight(flightNum);
+                            } else {
+                                System.out.println("Invalid Choice...No Response...!");
+                            }
                         } else if (desiredOption == 0) {
                             System.out.println("Thanks for Using BAV Airlines Ticketing System...!!!");
                         } else {
@@ -186,7 +200,7 @@ public class User {
                             f1.displayFlightSchedule();
                             f1.distanceMeasurementInstructions();
                         } else if (desiredChoice == 5) {
-                            bookingAndReserving.displayFlightsRegisteredByUser(result[1]);
+                            bookingAndReserving.displayFlightsRegisteredByOneUser(result[1]);
                         } else {
                             if (desiredChoice != 0) {
                                 System.out.println("Invalid Choice...Looks like you're Robot...Entering values randomly...You've Have to login again...");
@@ -232,7 +246,8 @@ public class User {
         System.out.printf("%-30s (c) Enter 3 to update the Data of the Passenger....\n", "");
         System.out.printf("%-30s (d) Enter 4 to delete a Passenger....\n", "");
         System.out.printf("%-30s (e) Enter 5 to Display all Passengers....\n", "");
-        System.out.printf("%-30s (f) Enter 0 to Go back to the Main Menu/Logout....\n", "");
+        System.out.printf("%-30s (f) Enter 6 to Display all Registered Passengers in a Flight....\n", "");
+        System.out.printf("%-30s (g) Enter 0 to Go back to the Main Menu/Logout....\n", "");
         System.out.print("Enter the desired Choice :   ");
     }
 
