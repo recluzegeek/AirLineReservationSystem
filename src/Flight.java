@@ -5,22 +5,51 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
-public class Flight {
+public class Flight extends User{
 
     private final String flightSchedule;
     private final String flightNumber;
     private final String fromWhichCity;
-    private final String toWhichCity;
     private final String gate;
+
+    public String getFlightSchedule() {
+        return flightSchedule;
+    }
+
+    public String getFromWhichCity() {
+        return fromWhichCity;
+    }
+
+    public String getGate() {
+        return gate;
+    }
+
+    public String getToWhichCity() {
+        return toWhichCity;
+    }
+
+    public String getArrivalTime() {
+        return arrivalTime;
+    }
+
+    public int getNoOfSeatsInTheFlight() {
+        return noOfSeatsInTheFlight;
+    }
+
+    private final String toWhichCity;
     private double distanceInMiles;
     private double distanceInKm;
     private String flightTime;
     private String arrivalTime;
     private int noOfSeatsInTheFlight;
 
-    private static final int numOfFlights = 15;
+    private static final int numOfFlights = 10;
     private static int nextDays = 0;
-    private static List<Flight> flightList = new ArrayList<>();
+    private static final List<Flight> flightList = new ArrayList<>();
+
+    public int getNumOfFlights() {
+        return numOfFlights;
+    }
 
     public int getNoOfSeats() {
         return noOfSeatsInTheFlight;

@@ -1,6 +1,7 @@
 import java.util.*;
 
 public class Customer {
+    Flight f1 = new Flight();
     private final String userID;
     private final String name;
     private final String email;
@@ -8,7 +9,21 @@ public class Customer {
     private final String password;
     private final String address;
     private final int age;
+    private Flight[] flightsRegisteredByUser;
+    private int numOfFlights;
+
+    public int getNumOfFlights() {
+        return numOfFlights;
+    }
+
+
     public final List<Customer> customerCollection = User.getCustomersCollection();
+
+    void addFlightToUserArray(Flight f) {
+        this.flightsRegisteredByUser[numOfFlights] = f;
+        ++numOfFlights;
+    }
+
 
     /*  0-Argument constructor of Customer class*/
     Customer() {
@@ -21,7 +36,12 @@ public class Customer {
         this.age = 0;
     }
 
+    public Flight[] getFlightsRegisteredByUser() {
+        return flightsRegisteredByUser;
+    }
+
     Customer(String name, String email, String password, String phone, String address, int age) {
+//        this.numOfFlights = numOfRegisteredFlights;
         RandomGenerator random = new RandomGenerator();
         random.randomIDGen();
         this.name = name;
@@ -31,6 +51,8 @@ public class Customer {
         this.phone = phone;
         this.address = address;
         this.age = age;
+        this.flightsRegisteredByUser = new Flight[f1.getNumOfFlights()];
+        this.numOfFlights = 0;
     }
 
     public String getPassword() {
@@ -42,7 +64,7 @@ public class Customer {
     }
 
     /*Overloaded Constructor having an extra parameter of userID*/
-    Customer(String name, String email, String password, String phone, String address, int age, String userID) {
+    Customer(String name, String email, String password, String phone, String address, int age, String userID, Flight[] flightsRegisteredByUser, int numOfFlights) {
         this.name = name;
         this.userID = userID;
         this.email = email;
@@ -50,6 +72,8 @@ public class Customer {
         this.phone = phone;
         this.address = address;
         this.age = age;
+        this.numOfFlights = numOfFlights;
+        this.flightsRegisteredByUser = flightsRegisteredByUser;
     }
 
 
@@ -58,6 +82,7 @@ public class Customer {
     }
 
     public void addNew() {
+        System.out.printf("\n\n\n%60s ++++++++++++++ Welcome to the Customer Registration Portal ++++++++++++++", "");
         Customer c1 = new Customer();
         Scanner read = new Scanner(System.in);
         System.out.print("\nEnter your name :\t");
@@ -107,7 +132,6 @@ public class Customer {
     }
 
 
-
     public String getEmail() {
         return email;
     }
@@ -148,7 +172,7 @@ public class Customer {
             String address = read.nextLine();
             System.out.print("Enter the new age of Passenger " + name + ":\t");
             int age = read.nextInt();
-            listIterator.set(new Customer(name, email, password, phone, address, age, ID));
+            listIterator.set(new Customer(name, email, password, phone, address, age, ID, this.flightsRegisteredByUser, this.numOfFlights));
             display();
         } else {
             System.out.printf("%-50sNo Customer with the ID %s Found...!!!\n", " ", ID);

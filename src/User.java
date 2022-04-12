@@ -6,11 +6,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class User extends Customer {
+public class User {
 
     private static int countNumOfUsers = 1;
     /*2D Array to store credentials.... Default credentials are stored on 0 index....Max num of users can be 10....*/
     private static final String[][] usernameAndPassword = new String[10][2];
+
+    public final List<Flight> flightsRegisteredByCustomer = new ArrayList<>();
+
+//
+//    public List<Flight> getFlightsRegisteredByCustomer() {
+//        return flightsRegisteredByCustomer;
+//    }
 
     /*Getter method for the 2D Array to be accessed in RolesAndPermission class*/
     public String[][] getUsernameAndPassword() {
@@ -28,6 +35,7 @@ public class User extends Customer {
     public static void main(String[] args) {
         RolesAndPermissions r1 = new RolesAndPermissions();
         Flight f1 = new Flight();
+        FlightBookingAndReserving bookingAndReserving = new FlightBookingAndReserving();
         Customer c1 = new Customer();
         f1.flightScheduler();
 //        Main Menu
@@ -161,9 +169,13 @@ public class User extends Customer {
                             f1.displayFlightSchedule();
                             System.out.print("\nEnter the desired flight number to book :\t ");
                             String flightToBeBooked = read1.nextLine();
-                            System.out.print("Enter the Number of tickets for " + flightToBeBooked +" flight :   ");
-                            int numOfTickets =  read.nextInt();
-                            flightBookingAndReserving.bookFlight(flightToBeBooked,numOfTickets);
+                            System.out.print("Enter the Number of tickets for " + flightToBeBooked + " flight :   ");
+                            int numOfTickets = read.nextInt();
+                            while (numOfTickets > 10) {
+                                System.out.print("ERROR!! You can't book more than 10 tickets at a time for single flight....Enter number of tickets again : s");
+                                numOfTickets = read.nextInt();
+                            }
+                            flightBookingAndReserving.bookFlight(flightToBeBooked, numOfTickets, result[1]);
                         } else if (desiredChoice == 2) {
                             c1.editUserInfo(result[1]);
                         } else if (desiredChoice == 3) {
@@ -173,8 +185,12 @@ public class User extends Customer {
                         } else if (desiredChoice == 4) {
                             f1.displayFlightSchedule();
                             f1.distanceMeasurementInstructions();
+                        } else if (desiredChoice == 5) {
+                            bookingAndReserving.displayFlightsRegisteredByUser(result[1]);
                         } else {
-                            System.out.println("Invalid Choice...Looks like you're Robot...Entering values randomly...You've Have to login again...");
+                            if (desiredChoice != 0) {
+                                System.out.println("Invalid Choice...Looks like you're Robot...Entering values randomly...You've Have to login again...");
+                            }
                             desiredChoice = 0;
                         }
                     } while (desiredChoice != 0);
@@ -203,7 +219,8 @@ public class User extends Customer {
         System.out.printf("%-40s (b) Enter 2 to update your Data....\n", "");
         System.out.printf("%-40s (c) Enter 3 to delete your account....\n", "");
         System.out.printf("%-40s (d) Enter 4 to Display Flight Schedule....\n", "");
-        System.out.printf("%-40s (e) Enter 0 to Go back to the Main Menu/Logout....\n", "");
+        System.out.printf("%-40s (e) Enter 5 to Display all flights registered by \"%s\"....\n", "", name);
+        System.out.printf("%-40s (f) Enter 0 to Go back to the Main Menu/Logout....\n", "");
         System.out.print("Enter the desired Choice :   ");
 
     }
@@ -226,8 +243,6 @@ public class User extends Customer {
         System.out.println("\t\t(c) Press 2 to Register as admin.");
         System.out.println("\t\t(b) Press 3 to Login as Passenger.");
         System.out.println("\t\t(c) Press 4 to Register as Passenger.");
-//        System.out.println("\t\t(d) Press 5 to display all available Flights.");
-//        System.out.println("\t\t(e) Press 6 to Reserve a Ticket.");
         System.out.print("\t\tEnter the desired option:    ");
     }
 }
