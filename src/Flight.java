@@ -90,6 +90,7 @@ public class Flight extends User {
         ++numberOfCustomers;
     }
 
+
     Flight(String flightSchedule, String flightNumber, int noOfSeatsInTheFlight, String[][] chosenDestinations, String[] distanceBetweenTheCities, String gate) {
         this.flightSchedule = flightSchedule;
         this.flightNumber = flightNumber;

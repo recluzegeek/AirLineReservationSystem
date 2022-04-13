@@ -11,11 +11,16 @@ public class Customer {
     private final int age;
     private Flight[] flightsRegisteredByUser;
     private int numOfFlights;
+    public int[] numOfTicketsBookedByUser;
+    public int numOfTickets;
 
     public int getNumOfFlights() {
         return numOfFlights;
     }
 
+    public int[] getNumOfTicketsBookedByUser() {
+        return numOfTicketsBookedByUser;
+    }
 
     public final List<Customer> customerCollection = User.getCustomersCollection();
 
@@ -51,7 +56,9 @@ public class Customer {
         this.phone = phone;
         this.address = address;
         this.age = age;
-        this.flightsRegisteredByUser = new Flight[f1.getNumOfFlights()];
+        this.flightsRegisteredByUser = new Flight[(f1.getNumOfFlights() * 3)];
+        this.numOfTicketsBookedByUser = new int[(f1.getNumOfFlights() * 3)];
+        this.numOfTickets = 0;
         this.numOfFlights = 0;
     }
 

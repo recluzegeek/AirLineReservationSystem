@@ -12,13 +12,6 @@ public class User {
     /*2D Array to store credentials.... Default credentials are stored on 0 index....Max num of users can be 10....*/
     private static final String[][] usernameAndPassword = new String[10][2];
 
-//    public final List<Flight> flightsRegisteredByCustomer = new ArrayList<>();
-
-//
-//    public List<Flight> getFlightsRegisteredByCustomer() {
-//        return flightsRegisteredByCustomer;
-//    }
-
     /*Getter method for the 2D Array to be accessed in RolesAndPermission class*/
     public String[][] getUsernameAndPassword() {
         return usernameAndPassword;
@@ -35,7 +28,7 @@ public class User {
     public static void main(String[] args) {
         RolesAndPermissions r1 = new RolesAndPermissions();
         Flight f1 = new Flight();
-        FlightBookingAndReserving bookingAndReserving = new FlightBookingAndReserving();
+        FlightReservation bookingAndReserving = new FlightReservation();
         Customer c1 = new Customer();
         f1.flightScheduler();
 //        Main Menu
@@ -141,6 +134,11 @@ public class User {
                             } else {
                                 System.out.println("Invalid Choice...No Response...!");
                             }
+                        } else if (desiredOption == 7) {
+                            f1.displayFlightSchedule();
+                            System.out.print("Enter the Flight Number to delete the flight : ");
+                            String flightNum = read1.nextLine();
+
                         } else if (desiredOption == 0) {
                             System.out.println("Thanks for Using BAV Airlines Ticketing System...!!!");
                         } else {
@@ -179,7 +177,7 @@ public class User {
                         display3rdLayerMenu(userName);
                         desiredChoice = read.nextInt();
                         if (desiredChoice == 1) {
-                            FlightBookingAndReserving flightBookingAndReserving = new FlightBookingAndReserving();
+                            FlightReservation flightReservation = new FlightReservation();
                             f1.displayFlightSchedule();
                             System.out.print("\nEnter the desired flight number to book :\t ");
                             String flightToBeBooked = read1.nextLine();
@@ -189,7 +187,7 @@ public class User {
                                 System.out.print("ERROR!! You can't book more than 10 tickets at a time for single flight....Enter number of tickets again : s");
                                 numOfTickets = read.nextInt();
                             }
-                            flightBookingAndReserving.bookFlight(flightToBeBooked, numOfTickets, result[1]);
+                            flightReservation.bookFlight(flightToBeBooked, numOfTickets, result[1]);
                         } else if (desiredChoice == 2) {
                             c1.editUserInfo(result[1]);
                         } else if (desiredChoice == 3) {
@@ -200,6 +198,12 @@ public class User {
                             f1.displayFlightSchedule();
                             f1.distanceMeasurementInstructions();
                         } else if (desiredChoice == 5) {
+                            System.out.printf("%50s %s Here is the list of all the Flights registered by you %s", " ", "++++++++++++++", "++++++++++++++");
+                            bookingAndReserving.displayFlightsRegisteredByOneUser(result[1]);
+                            System.out.print("Enter the Flight Number of the Flight you want to cancel : ");
+                            String flightNum = read1.nextLine();
+                            bookingAndReserving.cancelFlight(result[1],flightNum);
+                        } else if (desiredChoice == 6) {
                             bookingAndReserving.displayFlightsRegisteredByOneUser(result[1]);
                         } else {
                             if (desiredChoice != 0) {
@@ -233,8 +237,9 @@ public class User {
         System.out.printf("%-40s (b) Enter 2 to update your Data....\n", "");
         System.out.printf("%-40s (c) Enter 3 to delete your account....\n", "");
         System.out.printf("%-40s (d) Enter 4 to Display Flight Schedule....\n", "");
-        System.out.printf("%-40s (e) Enter 5 to Display all flights registered by \"%s\"....\n", "", name);
-        System.out.printf("%-40s (f) Enter 0 to Go back to the Main Menu/Logout....\n", "");
+        System.out.printf("%-40s (e) Enter 5 to Cancel a Flight....\n", "");
+        System.out.printf("%-40s (f) Enter 6 to Display all flights registered by \"%s\"....\n", "", name);
+        System.out.printf("%-40s (g) Enter 0 to Go back to the Main Menu/Logout....\n", "");
         System.out.print("Enter the desired Choice :   ");
 
     }
@@ -247,7 +252,8 @@ public class User {
         System.out.printf("%-30s (d) Enter 4 to delete a Passenger....\n", "");
         System.out.printf("%-30s (e) Enter 5 to Display all Passengers....\n", "");
         System.out.printf("%-30s (f) Enter 6 to Display all Registered Passengers in a Flight....\n", "");
-        System.out.printf("%-30s (g) Enter 0 to Go back to the Main Menu/Logout....\n", "");
+        System.out.printf("%-30s (g) Enter 7 to Delete a Flight....\n", "");
+        System.out.printf("%-30s (h) Enter 0 to Go back to the Main Menu/Logout....\n", "");
         System.out.print("Enter the desired Choice :   ");
     }
 
