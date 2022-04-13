@@ -17,14 +17,19 @@ public class Flight extends User {
     private String flightTime;
     private String arrivalTime;
     private int noOfSeatsInTheFlight;
-    private Customer[] customersInTheFlight;
+    private List<Customer> customersInTheFlight;
     private int numberOfCustomers;
+    private static final int numOfFlights = 10;
+    private static int nextDays = 0;
+    private static final List<Flight> flightList = new ArrayList<>();
+
+
 
     public int getNumberOfCustomers() {
         return numberOfCustomers;
     }
 
-    public Customer[] getCustomersInTheFlight() {
+    public List<Customer> getCustomersInTheFlight() {
         return customersInTheFlight;
     }
 
@@ -48,14 +53,11 @@ public class Flight extends User {
         return arrivalTime;
     }
 
-    public int getNoOfSeatsInTheFlight() {
-        return noOfSeatsInTheFlight;
-    }
+//    public int getNoOfSeatsInTheFlight() {
+//        return noOfSeatsInTheFlight;
+//    }
 
 
-    private static final int numOfFlights = 10;
-    private static int nextDays = 0;
-    private static final List<Flight> flightList = new ArrayList<>();
 
     public int getNumOfFlights() {
         return numOfFlights;
@@ -86,8 +88,10 @@ public class Flight extends User {
     }
 
     void addCustomerToFlight(Customer customer) {
-        this.customersInTheFlight[numberOfCustomers] = customer;
-        ++numberOfCustomers;
+//        this.customersInTheFlight[numberOfCustomers] = customer;
+//        ++numberOfCustomers;
+        this.customersInTheFlight.add(customer);
+        numberOfCustomers++;
     }
 
 
@@ -101,8 +105,9 @@ public class Flight extends User {
         this.distanceInKm = Double.parseDouble(distanceBetweenTheCities[1]);
         this.flightTime = calculateFlightTime(distanceInMiles);
         this.arrivalTime = fetchArrivalTime();
-        this.customersInTheFlight = new Customer[noOfSeatsInTheFlight];
-        this.numberOfCustomers = 0;
+//        this.customersInTheFlight = new Customer[noOfSeatsInTheFlight];
+//        this.numberOfCustomers = 0;
+        this.customersInTheFlight = new ArrayList<>();
         this.gate = gate;
     }
 

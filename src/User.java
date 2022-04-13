@@ -232,7 +232,7 @@ public class User {
 
 
     static void display3rdLayerMenu(String name) {
-        System.out.printf("\n\n%-60s+++++++++ 3rd Layer Menu +++++++++%50sLogged in as %s\n", "", "", name);
+        System.out.printf("\n\n%-60s+++++++++ 3rd Layer Menu +++++++++%50sLogged in as \"%s\"\n", "", "", name);
         System.out.printf("%-40s (a) Enter 1 to Book a flight....\n", "");
         System.out.printf("%-40s (b) Enter 2 to update your Data....\n", "");
         System.out.printf("%-40s (c) Enter 3 to delete your account....\n", "");

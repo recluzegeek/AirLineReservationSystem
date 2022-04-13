@@ -9,24 +9,30 @@ public class Customer {
     private final String password;
     private final String address;
     private final int age;
-    private Flight[] flightsRegisteredByUser;
+    private List<Flight> flightsRegisteredByUser;
     private int numOfFlights;
-    public int[] numOfTicketsBookedByUser;
-    public int numOfTickets;
+    public List<Integer> numOfTicketsBookedByUser;
+//    public int numOfTickets;
+
+    public void setNumOfFlights(int numOfFlights) {
+        this.numOfFlights = numOfFlights;
+    }
 
     public int getNumOfFlights() {
         return numOfFlights;
     }
 
-    public int[] getNumOfTicketsBookedByUser() {
+    public List<Integer> getNumOfTicketsBookedByUser() {
         return numOfTicketsBookedByUser;
     }
 
     public final List<Customer> customerCollection = User.getCustomersCollection();
 
     void addFlightToUserArray(Flight f) {
-        this.flightsRegisteredByUser[numOfFlights] = f;
-        ++numOfFlights;
+        this.flightsRegisteredByUser.add(f);
+        numOfFlights++;
+//        this.flightsRegisteredByUser[numOfFlights] = f;
+//        ++numOfFlights;
     }
 
 
@@ -41,7 +47,7 @@ public class Customer {
         this.age = 0;
     }
 
-    public Flight[] getFlightsRegisteredByUser() {
+    public List<Flight> getFlightsRegisteredByUser() {
         return flightsRegisteredByUser;
     }
 
@@ -56,9 +62,11 @@ public class Customer {
         this.phone = phone;
         this.address = address;
         this.age = age;
-        this.flightsRegisteredByUser = new Flight[(f1.getNumOfFlights() * 3)];
-        this.numOfTicketsBookedByUser = new int[(f1.getNumOfFlights() * 3)];
-        this.numOfTickets = 0;
+//        this.flightsRegisteredByUser = new Flight[(f1.getNumOfFlights() * 3)];
+//        this.numOfTicketsBookedByUser = new int[(f1.getNumOfFlights() * 3)];
+        this.flightsRegisteredByUser = new ArrayList<>();
+        this.numOfTicketsBookedByUser = new ArrayList<>();
+//        this.numOfTickets = 0;
         this.numOfFlights = 0;
     }
 
@@ -71,7 +79,7 @@ public class Customer {
     }
 
     /*Overloaded Constructor having an extra parameter of userID using for editUserInfo() method....*/
-    Customer(String name, String email, String password, String phone, String address, int age, String userID, Flight[] flightsRegisteredByUser, int numOfFlights) {
+    Customer(String name, String email, String password, String phone, String address, int age, String userID, List<Flight> flightsRegisteredByUser, int numOfFlights) {
         this.name = name;
         this.userID = userID;
         this.email = email;
