@@ -53,16 +53,6 @@ public class Flight extends User {
         return arrivalTime;
     }
 
-//    public int getNoOfSeatsInTheFlight() {
-//        return noOfSeatsInTheFlight;
-//    }
-
-
-
-    public int getNumOfFlights() {
-        return numOfFlights;
-    }
-
     public int getNoOfSeats() {
         return noOfSeatsInTheFlight;
     }
@@ -75,7 +65,6 @@ public class Flight extends User {
         this.noOfSeatsInTheFlight = noOfSeatsInTheFlight;
     }
 
-    //
     Flight() {
         this.flightSchedule = null;
         this.flightNumber = null;
@@ -83,8 +72,6 @@ public class Flight extends User {
         toWhichCity = null;
         fromWhichCity = null;
         this.gate = null;
-//        this.customersInTheFlight = new Customer[getCustomersCollection().size()];
-//        this.numberOfCustomers = 0;
     }
 
     void addCustomerToFlight(Customer customer) {

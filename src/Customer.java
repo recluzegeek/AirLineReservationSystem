@@ -9,10 +9,9 @@ public class Customer {
     private final String password;
     private final String address;
     private final int age;
-    private List<Flight> flightsRegisteredByUser;
+    public List<Flight> flightsRegisteredByUser;
     private int numOfFlights;
     public List<Integer> numOfTicketsBookedByUser;
-//    public int numOfTickets;
 
     public void setNumOfFlights(int numOfFlights) {
         this.numOfFlights = numOfFlights;
@@ -31,10 +30,12 @@ public class Customer {
     void addFlightToUserArray(Flight f) {
         this.flightsRegisteredByUser.add(f);
         numOfFlights++;
-//        this.flightsRegisteredByUser[numOfFlights] = f;
-//        ++numOfFlights;
     }
 
+//    void addFlightToUserArray(Customer customer,Flight f, int numberOfTickets){
+//            this.flightsRegisteredByUser.add(f);
+////            this.numOfTicketsBookedByUser.set(numberOfTickets);
+//    }
 
     /*  0-Argument constructor of Customer class*/
     Customer() {
@@ -52,7 +53,6 @@ public class Customer {
     }
 
     Customer(String name, String email, String password, String phone, String address, int age) {
-//        this.numOfFlights = numOfRegisteredFlights;
         RandomGenerator random = new RandomGenerator();
         random.randomIDGen();
         this.name = name;
@@ -62,11 +62,8 @@ public class Customer {
         this.phone = phone;
         this.address = address;
         this.age = age;
-//        this.flightsRegisteredByUser = new Flight[(f1.getNumOfFlights() * 3)];
-//        this.numOfTicketsBookedByUser = new int[(f1.getNumOfFlights() * 3)];
         this.flightsRegisteredByUser = new ArrayList<>();
         this.numOfTicketsBookedByUser = new ArrayList<>();
-//        this.numOfTickets = 0;
         this.numOfFlights = 0;
     }
 
