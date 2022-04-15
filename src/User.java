@@ -2,19 +2,20 @@
  * to perform the first-level implementation of the project like calling the login-method, registering user etc....
  *  */
 
+//import java.util.ArrayList;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class User {
 
-    private static int countNumOfUsers = 1;
+//    private static int countNumOfUsers = 1;
     /*2D Array to store credentials.... Default credentials are stored on 0 index....Max num of users can be 10....*/
-    private static final String[][] usernameAndPassword = new String[10][2];
+    private static final String[][] adminUserNameAndPassword = new String[10][2];
 
     /*Getter method for the 2D Array to be accessed in RolesAndPermission class*/
     public String[][] getUsernameAndPassword() {
-        return usernameAndPassword;
+        return adminUserNameAndPassword;
     }
 
     /*Created a List of Customer Class using the name of customersCollection */
@@ -26,6 +27,7 @@ public class User {
     }
 
     public static void main(String[] args) {
+        int countNumOfUsers = 1;
         RolesAndPermissions r1 = new RolesAndPermissions();
         Flight f1 = new Flight();
         FlightReservation bookingAndReserving = new FlightReservation();
@@ -52,8 +54,8 @@ public class User {
             if (desiredOption == 1) {
 
                 /*Setting the default username and password....*/
-                usernameAndPassword[0][0] = "root";
-                usernameAndPassword[0][1] = "root";
+                adminUserNameAndPassword[0][0] = "root";
+                adminUserNameAndPassword[0][1] = "root";
 
                 /*Asking for the usernames && passwords....*/
                 System.out.print("\nEnter the UserName to login to the Management System :     ");
@@ -158,8 +160,8 @@ public class User {
                 String password = read1.nextLine();
 
                 /*Setting the credentials entered by the user.....*/
-                usernameAndPassword[countNumOfUsers][0] = username;
-                usernameAndPassword[countNumOfUsers][1] = password;
+                adminUserNameAndPassword[countNumOfUsers][0] = username;
+                adminUserNameAndPassword[countNumOfUsers][1] = password;
 
                 /*Incrementing the numOfUsers */
                 countNumOfUsers++;
