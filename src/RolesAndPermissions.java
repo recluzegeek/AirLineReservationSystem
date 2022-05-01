@@ -18,7 +18,7 @@ public class RolesAndPermissions extends User {
         Customer c1 = new Customer();
         /*Initializing customerWithTheID to the states of the first obj present in the customerCollection*/
         for (Customer c : c1.customerCollection) {
-            if (userName.equals(c.getName())) {
+            if (userName.equals(c.getEmail())) {
                 if (password.equals(c.getPassword())) {
                     isFound = "1-" + c.getUserID();
                     break;

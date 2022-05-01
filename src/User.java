@@ -56,24 +56,24 @@ public class User {
                 /*Asking for the usernames && passwords....*/
                 System.out.print("\nEnter the UserName to login to the Management System :     ");
                 String username = read1.nextLine();
-                System.out.print("Enter the Password to login to the Management  System :    ");
+                System.out.print("Enter the Password to login to the Management System :    ");
                 String password = read1.nextLine();
                 System.out.println();
 
                 /*Checking the RolesAndPermissions......*/
                 if (r1.isPrivilegedUserOrNot(username, password) == -1) {
-                    System.out.println("ERROR!!! Cannot find user with the entered credentials.... Try Creating New Credentials or get yourself register by pressing 2....");
+                    System.out.printf("\n%20sERROR!!! Unable to login Cannot find user with the entered credentials.... Try Creating New Credentials or get yourself register by pressing 4....\n","");
                 } else if (r1.isPrivilegedUserOrNot(username, password) == 0) {
                     System.out.println("You've standard/default privileges to access the data... You can just view customers data..." + "Can't perform any actions on them....");
                     c1.display();
                 } else {
-                    System.out.printf("%-20sLogged in Successfully as %s..... For further Proceedings, enter a value from below....", "", username);
+                    System.out.printf("%-20sLogged in Successfully as \"%s\"..... For further Proceedings, enter a value from below....", "", username);
 
                     /*Going to Display the CRUD operations to be performed by the privileged user.....Which includes Creating, Updating
                      * Reading(Searching) and deleting a customer....
                      * */
                     do {
-                        System.out.printf("\n%-40s+++++++++ 2nd Layer Menu +++++++++\n", "");
+                        System.out.printf("\n\n%-60s+++++++++ 2nd Layer Menu +++++++++%50sLogged in as \"%s\"\n", "", "", username);
                         System.out.printf("%-30s (a) Enter 1 to add new Passenger....\n", "");
                         System.out.printf("%-30s (b) Enter 2 to search a Passenger....\n", "");
                         System.out.printf("%-30s (c) Enter 3 to update the Data of the Passenger....\n", "");
@@ -146,6 +146,7 @@ public class User {
                             f1.displayFlightSchedule();
                             System.out.print("Enter the Flight Number to delete the flight : ");
                             String flightNum = read1.nextLine();
+                            f1.deleteFlight(flightNum);
 
                         } else if (desiredOption == 0) {
                             System.out.println("Thanks for Using BAV Airlines Ticketing System...!!!");
@@ -172,7 +173,7 @@ public class User {
                 /*Incrementing the numOfUsers */
                 countNumOfUsers++;
             } else if (desiredOption == 3) {
-                System.out.print("\n\nEnter the UserName to Login : \t");
+                System.out.print("\n\nEnter the Email to Login : \t");
                 String userName = read1.nextLine();
                 System.out.print("Enter the Password : \t");
                 String password = read1.nextLine();
@@ -180,7 +181,7 @@ public class User {
 
                 if (Integer.parseInt(result[0]) == 1) {
                     int desiredChoice;
-                    System.out.printf("\n\n%-20sLogged in Successfully as %s..... For further Proceedings, enter a value from below....", "", userName);
+                    System.out.printf("\n\n%-20sLogged in Successfully as \"%s\"..... For further Proceedings, enter a value from below....", "", userName);
                     do {
                         System.out.printf("\n\n%-60s+++++++++ 3rd Layer Menu +++++++++%50sLogged in as \"%s\"\n", "", "", userName);
                         System.out.printf("%-40s (a) Enter 1 to Book a flight....\n", "");
@@ -200,7 +201,7 @@ public class User {
                             System.out.print("Enter the Number of tickets for " + flightToBeBooked + " flight :   ");
                             int numOfTickets = read.nextInt();
                             while (numOfTickets > 10) {
-                                System.out.print("ERROR!! You can't book more than 10 tickets at a time for single flight....Enter number of tickets again : s");
+                                System.out.print("ERROR!! You can't book more than 10 tickets at a time for single flight....Enter number of tickets again : ");
                                 numOfTickets = read.nextInt();
                             }
                             flightReservation.bookFlight(flightToBeBooked, numOfTickets, result[1]);
@@ -218,6 +219,7 @@ public class User {
                             bookingAndReserving.displayFlightsRegisteredByOneUser(result[1]);
                             System.out.print("Enter the Flight Number of the Flight you want to cancel : ");
                             String flightNum = read1.nextLine();
+
                             bookingAndReserving.cancelFlight(result[1], flightNum);
                         } else if (desiredChoice == 6) {
                             bookingAndReserving.displayFlightsRegisteredByOneUser(result[1]);
@@ -230,7 +232,7 @@ public class User {
                     } while (desiredChoice != 0);
 
                 } else {
-                    System.out.println("Unable to Login");
+                    System.out.printf("\n%20sERROR!!! Unable to login Cannot find user with the entered credentials.... Try Creating New Credentials or get yourself register by pressing 4....\n","");
                 }
             } else if (desiredOption == 4) {
                 c1.addNewCustomer();
@@ -252,9 +254,9 @@ public class User {
         System.out.println("\n\n\t\t(a) Press 0 to Exit.");
         System.out.println("\t\t(b) Press 1 to Login as admin.");
         System.out.println("\t\t(c) Press 2 to Register as admin.");
-        System.out.println("\t\t(b) Press 3 to Login as Passenger.");
-        System.out.println("\t\t(c) Press 4 to Register as Passenger.");
-        System.out.println("\t\t(c) Press 5 to Display the User Manual.");
+        System.out.println("\t\t(d) Press 3 to Login as Passenger.");
+        System.out.println("\t\t(e) Press 4 to Register as Passenger.");
+        System.out.println("\t\t(f) Press 5 to Display the User Manual.");
         System.out.print("\t\tEnter the desired option:    ");
     }
 

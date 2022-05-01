@@ -1,5 +1,6 @@
 import java.util.Iterator;
 import java.util.List;
+import java.util.Scanner;
 
 public class FlightReservation implements DisplayClass {
 
@@ -18,9 +19,16 @@ public class FlightReservation implements DisplayClass {
                     if (userID.equals(customer.getUserID())) {
                         isFound = true;
                         f1.setNoOfSeatsInTheFlight(f1.getNoOfSeats() - numOfTickets);
-                        f1.addCustomerToFlight(customer);
+                        if (!f1.isCustomerAlreadyAdded(f1.getCustomersInTheFlight(), customer)) {
+                            f1.addNewCustomerToFlight(customer);
+                        } else {
+                            f1.addTicketsToExistingCustomer(customer, (numOfTickets - 10));
+                        }
                         if (isFlightAlreadyAddedToCustomerList(customer.flightsRegisteredByUser, f1)) {
                             addNumberOfTicketsToExistingBookedFlight(customer, numOfTickets);
+                            if (flightIndex(flight.getFlightList(), flight) != -1) {
+                                customer.addExistingFlightToCustomerList(f1, flightIndex(flight.getFlightList(), flight), numOfTickets);
+                            }
                         } else {
                             customer.addFlightToCustomerList(f1);
                             addNumberOfTicketsForNewFlight(customer, numOfTickets);
@@ -39,6 +47,9 @@ public class FlightReservation implements DisplayClass {
 
     /*Cancel a flight registered by the user....*/
     void cancelFlight(String userID, String flightNum) {
+        Scanner read = new Scanner(System.in);
+        System.out.print("Enter the number of tickets to cancel : ");
+        int numOfTickets = read.nextInt();
         int index = 0, ticketsToBeReturned;
         boolean isFound = false;
         for (Customer customer : c1.customerCollection) {
@@ -48,10 +59,20 @@ public class FlightReservation implements DisplayClass {
                     Flight flight = flightIterator.next();
                     if (flightNum.equalsIgnoreCase(flight.getFlightNumber())) {
                         isFound = true;
-                        customer.setNumOfFlights(customer.getNumOfFlights() - 1);
-                        ticketsToBeReturned = flight.getNoOfSeats() + customer.getNumOfTicketsBookedByUser().get(index);
+                        int numOfTicketsForFlight = customer.getNumOfTicketsBookedByUser().get(index);
+                        while (numOfTickets > numOfTicketsForFlight) {
+                            System.out.print("ERROR!!! Number of tickets cannot be greater than " + numOfTicketsForFlight + " for this flight. Please enter the number of tickets again : ");
+                            numOfTickets = read.nextInt();
+                        }
+                        if (numOfTicketsForFlight == numOfTickets) {
+                            customer.setNumOfFlights(customer.getNumOfFlights() - 1);
+                            ticketsToBeReturned = flight.getNoOfSeats() + numOfTicketsForFlight;
+                            flightIterator.remove();
+                        } else {
+                            ticketsToBeReturned = numOfTickets + flight.getNoOfSeats();
+                            customer.numOfTicketsBookedByUser.set(index, numOfTicketsForFlight - numOfTickets);
+                        }
                         flight.setNoOfSeatsInTheFlight(ticketsToBeReturned);
-                        flightIterator.remove();
                         break;
                     }
                     index++;
@@ -84,59 +105,87 @@ public class FlightReservation implements DisplayClass {
         return addedOrNot;
     }
 
+    String flightStatus(Flight flight) {
+        boolean isFlightAvailable = false;
+        for (Flight list : flight.getFlightList()) {
+            if (list.getFlightNumber().equalsIgnoreCase(flight.getFlightNumber())) {
+                isFlightAvailable = true;
+                break;
+            }
+        }
+        if (isFlightAvailable) {
+            return "As Per Schedule";
+        } else {
+            return "   Cancelled   ";
+        }
+    }
 
     /*toString() Method for displaying number of flights registered by single user...*/
     public String toString(int serialNum, Flight flights, Customer customer) {
-        return String.format("| %-5d| %-41s | %-9s | \t%-9d | %-21s | %-22s | %-10s  |   %-6sHrs |  %-4s  |", serialNum, flights.getFlightSchedule(), flights.getFlightNumber(), customer.numOfTicketsBookedByUser.get(serialNum - 1), flights.getFromWhichCity(), flights.getToWhichCity(), flights.fetchArrivalTime(), flights.getFlightTime(), flights.getGate());
+        return String.format("| %-5d| %-41s | %-9s | \t%-9d | %-21s | %-22s | %-10s  |   %-6sHrs |  %-4s  | %-10s |", serialNum, flights.getFlightSchedule(), flights.getFlightNumber(), customer.numOfTicketsBookedByUser.get(serialNum - 1), flights.getFromWhichCity(), flights.getToWhichCity(), flights.fetchArrivalTime(), flights.getFlightTime(), flights.getGate(), flightStatus(flights));
     }
 
     @Override
     public void displayFlightsRegisteredByOneUser(String userID) {
         System.out.println();
-        System.out.print("+------+-------------------------------------------+-----------+------------------+-----------------------+------------------------+---------------------------+-------------+--------+\n");
-        System.out.printf("| Num  | FLIGHT SCHEDULE\t\t\t   | FLIGHT NO |  Booked Tickets  | \tFROM ====>>       | \t====>> TO\t   | \t    ARRIVAL TIME       | FLIGHT TIME |  GATE  |%n");
-        System.out.print("+------+-------------------------------------------+-----------+------------------+-----------------------+------------------------+---------------------------+-------------+--------+\n");
+        System.out.print("+------+-------------------------------------------+-----------+------------------+-----------------------+------------------------+---------------------------+-------------+--------+-----------------+\n");
+        System.out.printf("| Num  | FLIGHT SCHEDULE\t\t\t   | FLIGHT NO |  Booked Tickets  | \tFROM ====>>       | \t====>> TO\t   | \t    ARRIVAL TIME       | FLIGHT TIME |  GATE  |  FLIGHT STATUS  |%n");
+        System.out.print("+------+-------------------------------------------+-----------+------------------+-----------------------+------------------------+---------------------------+-------------+--------+-----------------+\n");
         for (Customer customer : c1.customerCollection) {
             List<Flight> f = customer.getFlightsRegisteredByUser();
             if (userID.equals(customer.getUserID())) {
                 for (int i = 0; i < customer.getNumOfFlights(); i++) {
                     System.out.println(toString((i + 1), f.get(i), customer));
-                    System.out.print("+------+-------------------------------------------+-----------+------------------+-----------------------+------------------------+---------------------------+-------------+--------+\n");
+                    System.out.print("+------+-------------------------------------------+-----------+------------------+-----------------------+------------------------+---------------------------+-------------+--------+-----------------+\n");
                 }
             }
         }
     }
 
     /*overloaded toString() method for displaying all users in a flight....*/
-    public String toString(int serialNum, Customer customer) {
-        return String.format("| %-10d | %-10s | %-32s | %-7s | %-27s | %-35s | %-23s |", serialNum, customer.getUserID(), customer.getName(), customer.getAge(), customer.getEmail(), customer.getAddress(), customer.getPhone());
+    public String toString(int serialNum, Customer customer, int index) {
+        return String.format("| %-10d | %-10s | %-32s | %-7s | %-27s | %-35s | %-23s |       %-7s  |", (serialNum + 1), customer.getUserID(), customer.getName(),
+                customer.getAge(), customer.getEmail(), customer.getAddress(), customer.getPhone(), customer.numOfTicketsBookedByUser.get(index));
     }
 
     @Override
     public void displayHeaderForUsers(Flight flight, List<Customer> c) {
-        if (flight.getRegisteredNumOfCustomers() != 0) {
-            System.out.printf("%40s Displaying Registered Customers for Flight No. \"%-6s\" %s \n\n", "+++++++++++++", flight.getFlightNumber(), "+++++++++++++");
-            System.out.print("+------------+------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+\n");
-            System.out.printf("| SerialNum  | UserID\t  | Passenger Names                  | Age     | EmailID\t\t     | Home Address\t\t\t   | Phone Number\t     |%n");
-            System.out.print("+------------+------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+\n");
-            for (int i = 0; i < flight.getRegisteredNumOfCustomers(); i++) {
-                System.out.println(toString((i + 1), c.get(i)));
-                System.out.print("+------------+------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+\n");
-            }
-            System.out.println("\n");
+        System.out.printf("\n%60s Displaying Registered Customers for Flight No. \"%-6s\" %s \n\n", "+++++++++++++", flight.getFlightNumber(), "+++++++++++++");
+        System.out.print("+------------+------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+----------------+\n");
+        System.out.printf("| SerialNum  | UserID\t  | Passenger Names                  | Age     | EmailID\t\t     | Home Address\t\t\t   | Phone Number\t     | Booked Tickets |%n");
+        System.out.print("+------------+------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+----------------+\n");
+
+        for (int i = 0; i < flight.getRegisteredNumOfCustomers(); i++) {
+            System.out.println(toString(i, c.get(i), flightIndex(c.get(i).flightsRegisteredByUser, flight)));
+            System.out.print("+------------+------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+----------------+\n");
         }
     }
 
     @Override
     public void displayRegisteredUsersForAllFlight() {
+        System.out.println();
         for (Flight flight : flight.getFlightList()) {
             List<Customer> c = flight.getCustomersInTheFlight();
-            displayHeaderForUsers(flight, c);
+            if (flight.getRegisteredNumOfCustomers() != 0) {
+                displayHeaderForUsers(flight, c);
+
+            }
         }
+    }
+
+    int flightIndex(List<Flight> flightList, Flight flight) {
+        int i = -1;
+        for (Flight flight1 : flightList) {
+            if (flight1.equals(flight)) {
+                i = flightList.indexOf(flight1);
+            }
+        }
+        return i;
     }
 
     @Override
     public void displayRegisteredUsersForASpecificFlight(String flightNum) {
+        System.out.println();
         for (Flight flight : flight.getFlightList()) {
             List<Customer> c = flight.getCustomersInTheFlight();
             if (flight.getFlightNumber().equalsIgnoreCase(flightNum)) {

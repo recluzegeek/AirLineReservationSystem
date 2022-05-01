@@ -19,9 +19,10 @@ public class Flight extends FlightDistance {
     private String flightTime;
     private int numOfSeatsInTheFlight;
     private List<Customer> listOfRegisteredCustomersInTheFlight;
+    private int customerIndex;
     private int registeredNumOfCustomers;
     private static int nextFlightDay = 0;
-    private static final List<Flight> flightList = new ArrayList<>();
+    private static List<Flight> flightList = new ArrayList<>();
 
     //        ************************************************************ Behaviours/Methods ************************************************************
 
@@ -63,9 +64,26 @@ public class Flight extends FlightDistance {
         }
     }
 
-    void addCustomerToFlight(Customer customer) {
+    void addNewCustomerToFlight(Customer customer) {
         this.listOfRegisteredCustomersInTheFlight.add(customer);
-        registeredNumOfCustomers++;
+        this.registeredNumOfCustomers++;
+    }
+
+    void addTicketsToExistingCustomer(Customer customer, int numOfTickets) {
+        int newNumOfTickets = customer.numOfTicketsBookedByUser.get(customerIndex) + numOfTickets;
+        customer.numOfTicketsBookedByUser.set(customerIndex, newNumOfTickets);
+    }
+
+    boolean isCustomerAlreadyAdded(List<Customer> customersList, Customer customer) {
+        boolean isAdded = false;
+        for (Customer customer1 : customersList) {
+            if (customer1.getUserID().equals(customer.getUserID())) {
+                isAdded = true;
+                customerIndex = customersList.indexOf(customer1);
+                break;
+            }
+        }
+        return isAdded;
     }
 
     public String calculateFlightTime(double distanceBetweenTheCities) {
@@ -113,6 +131,24 @@ public class Flight extends FlightDistance {
         DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("EE, dd-MM-yyyy HH:mm a");
         return arrivalTime.format(formatter1);
 
+    }
+
+    void deleteFlight(String flightNumber) {
+        boolean isFound = false;
+        Iterator<Flight> list = flightList.iterator();
+        while (list.hasNext()) {
+            Flight flight = list.next();
+            if (flight.getFlightNumber().equalsIgnoreCase(flightNumber)) {
+                isFound = true;
+                break;
+            }
+        }
+        if (isFound) {
+            list.remove();
+        } else {
+            System.out.println("Flight with given Number not found...");
+        }
+        displayFlightSchedule();
     }
 
     @Override
@@ -235,4 +271,9 @@ public class Flight extends FlightDistance {
     public String getToWhichCity() {
         return toWhichCity;
     }
+
+    public void setRegisteredNumOfCustomers(int registeredNumOfCustomers) {
+        this.registeredNumOfCustomers = registeredNumOfCustomers;
+    }
+
 }

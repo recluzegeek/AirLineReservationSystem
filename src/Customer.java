@@ -48,6 +48,11 @@ public class Customer {
         numOfFlights++;
     }
 
+    void addExistingFlightToCustomerList(Flight f, int index,int numOfTickets){
+        int newNumOfTickets = numOfTicketsBookedByUser.get(index) + numOfTickets;
+        this.numOfTicketsBookedByUser.set(index,newNumOfTickets);
+    }
+
     public void addNewCustomer() {
         System.out.printf("\n\n\n%60s ++++++++++++++ Welcome to the Customer Registration Portal ++++++++++++++", "");
         Customer c1 = new Customer();
@@ -56,10 +61,8 @@ public class Customer {
         String name = read.nextLine();
         System.out.print("Enter your email address :\t");
         String email = read.nextLine();
-        while (isUniqueData(name, email)) {
-            System.out.println("ERROR!!! User with the same username/email already exists... Use another username/email....");
-            System.out.print("\nEnter your name :\t");
-            name = read.nextLine();
+        while (isUniqueData(email)) {
+            System.out.println("ERROR!!! User with the same email already exists... Use new email or login using the previous credentials....");
             System.out.print("Enter your email address :\t");
             email = read.nextLine();
         }
@@ -98,11 +101,11 @@ public class Customer {
         }
     }
 
-    public boolean isUniqueData(String userName, String emailID) {
+    public boolean isUniqueData(String emailID) {
         Customer c1 = new Customer();
         boolean isUnique = false;
         for (Customer c : c1.customerCollection) {
-            if (userName.equals(c.getName()) || emailID.equals(c.getEmail())) {
+            if (emailID.equals(c.getEmail())) {
                 isUnique = true;
                 break;
             }
