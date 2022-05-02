@@ -225,6 +225,7 @@ public class Flight extends FlightDistance {
         return newDatetime;
     }
 
+
     //        ************************************************************ Setters & Getters ************************************************************
 
     public int getNoOfSeats() {

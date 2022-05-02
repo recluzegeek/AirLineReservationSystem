@@ -201,4 +201,105 @@ public class FlightReservation implements DisplayClass {
             }
         }
     }
+
+    @Override
+    public void displayArtWork(int option) {
+        String artWork="";
+        if(option==1){
+            artWork = """
+                    
+                    d8888b.  .d88b.   .d88b.  db   dD      d88888b db      d888888b  d888b  db   db d888888b\s
+                    88  `8D .8P  Y8. .8P  Y8. 88 ,8P'      88'     88        `88'   88' Y8b 88   88 `~~88~~'\s
+                    88oooY' 88    88 88    88 88,8P        88ooo   88         88    88      88ooo88    88   \s
+                    88~~~b. 88    88 88    88 88`8b        88~~~   88         88    88  ooo 88~~~88    88   \s
+                    88   8D `8b  d8' `8b  d8' 88 `88.      88      88booo.   .88.   88. ~8~ 88   88    88   \s
+                    Y8888P'  `Y88P'   `Y88P'  YP   YD      YP      Y88888P Y888888P  Y888P  YP   YP    YP   \s
+                                                                                                            \s
+                                                                                                            \s                                                                                                                     \s                                                                                                                         
+                    """;
+        }else if (option==2){
+            artWork = """
+                                        
+                    d88888b d8888b. d888888b d888888b      d888888b d8b   db d88888b  .d88b. \s
+                    88'     88  `8D   `88'   `~~88~~'        `88'   888o  88 88'     .8P  Y8.\s
+                    88ooooo 88   88    88       88            88    88V8o 88 88ooo   88    88\s
+                    88~~~~~ 88   88    88       88            88    88 V8o88 88~~~   88    88\s
+                    88.     88  .8D   .88.      88           .88.   88  V888 88      `8b  d8'\s
+                    Y88888P Y8888D' Y888888P    YP         Y888888P VP   V8P YP       `Y88P' \s
+                                                                                             \s
+                                                                                             \s
+                    """;
+        }else if(option==3){
+            artWork = """
+                                        
+                    d8888b. d88888b db      d88888b d888888b d88888b       .d8b.   .o88b.  .o88b.  .d88b.  db    db d8b   db d888888b\s
+                    88  `8D 88'     88      88'     `~~88~~' 88'          d8' `8b d8P  Y8 d8P  Y8 .8P  Y8. 88    88 888o  88 `~~88~~'\s
+                    88   88 88ooooo 88      88ooooo    88    88ooooo      88ooo88 8P      8P      88    88 88    88 88V8o 88    88   \s
+                    88   88 88~~~~~ 88      88~~~~~    88    88~~~~~      88~~~88 8b      8b      88    88 88    88 88 V8o88    88   \s
+                    88  .8D 88.     88booo. 88.        88    88.          88   88 Y8b  d8 Y8b  d8 `8b  d8' 88b  d88 88  V888    88   \s
+                    Y8888D' Y88888P Y88888P Y88888P    YP    Y88888P      YP   YP  `Y88P'  `Y88P'  `Y88P'  ~Y8888P' VP   V8P    YP   \s
+                                                                                                                                     \s
+                                                                                                                                     \s
+                    """;
+        }else if (option==4){
+            artWork = """
+                    
+                    d8888b.  .d8b.  d8b   db d8888b.  .d88b.  .88b  d88.      d88888b db      d888888b  d888b  db   db d888888b      .d8888.  .o88b. db   db d88888b d8888b. db    db db      d88888b\s
+                    88  `8D d8' `8b 888o  88 88  `8D .8P  Y8. 88'YbdP`88      88'     88        `88'   88' Y8b 88   88 `~~88~~'      88'  YP d8P  Y8 88   88 88'     88  `8D 88    88 88      88'    \s
+                    88oobY' 88ooo88 88V8o 88 88   88 88    88 88  88  88      88ooo   88         88    88      88ooo88    88         `8bo.   8P      88ooo88 88ooooo 88   88 88    88 88      88ooooo\s
+                    88`8b   88~~~88 88 V8o88 88   88 88    88 88  88  88      88~~~   88         88    88  ooo 88~~~88    88           `Y8b. 8b      88~~~88 88~~~~~ 88   88 88    88 88      88~~~~~\s
+                    88 `88. 88   88 88  V888 88  .8D `8b  d8' 88  88  88      88      88booo.   .88.   88. ~8~ 88   88    88         db   8D Y8b  d8 88   88 88.     88  .8D 88b  d88 88booo. 88.    \s
+                    88   YD YP   YP VP   V8P Y8888D'  `Y88P'  YP  YP  YP      YP      Y88888P Y888888P  Y888P  YP   YP    YP         `8888Y'  `Y88P' YP   YP Y88888P Y8888D' ~Y8888P' Y88888P Y88888P\s
+                                                                                                                                                                                                     \s
+                    Are you thinking that it's not random schedule...Then you can confirm it by re-running the program...                                                                                                                                                           \s                                        
+                    """;
+        }else if (option==5){
+            artWork = """
+                                        
+                     .o88b.  .d8b.  d8b   db  .o88b. d88888b db           d88888b db      d888888b  d888b  db   db d888888b\s
+                    d8P  Y8 d8' `8b 888o  88 d8P  Y8 88'     88           88'     88        `88'   88' Y8b 88   88 `~~88~~'\s
+                    8P      88ooo88 88V8o 88 8P      88ooooo 88           88ooo   88         88    88      88ooo88    88   \s
+                    8b      88~~~88 88 V8o88 8b      88~~~~~ 88           88~~~   88         88    88  ooo 88~~~88    88   \s
+                    Y8b  d8 88   88 88  V888 Y8b  d8 88.     88booo.      88      88booo.   .88.   88. ~8~ 88   88    88   \s
+                     `Y88P' YP   YP VP   V8P  `Y88P' Y88888P Y88888P      YP      Y88888P Y888888P  Y888P  YP   YP    YP   \s
+                                                                                                                           \s
+                                                                                                                           \s
+                    """;
+        }else if (option==6){
+            artWork = """
+                                        
+                    d8888b. d88888b  d888b  d888888b .d8888. d888888b d88888b d8888b. d8888b.      d88888b db      d888888b  d888b  db   db d888888b .d8888.     \s
+                    88  `8D 88'     88' Y8b   `88'   88'  YP `~~88~~' 88'     88  `8D 88  `8D      88'     88        `88'   88' Y8b 88   88 `~~88~~' 88'  YP     \s
+                    88oobY' 88ooooo 88         88    `8bo.      88    88ooooo 88oobY' 88   88      88ooo   88         88    88      88ooo88    88    `8bo.       \s
+                    88`8b   88~~~~~ 88  ooo    88      `Y8b.    88    88~~~~~ 88`8b   88   88      88~~~   88         88    88  ooo 88~~~88    88      `Y8b.     \s
+                    88 `88. 88.     88. ~8~   .88.   db   8D    88    88.     88 `88. 88  .8D      88      88booo.   .88.   88. ~8~ 88   88    88    db   8D     \s
+                    88   YD Y88888P  Y888P  Y888888P `8888Y'    YP    Y88888P 88   YD Y8888D'      YP      Y88888P Y888888P  Y888P  YP   YP    YP    `8888Y'     \s
+                                        
+                                        
+                    d8888b. db    db       .d8b.       d8888b.  .d8b.  .d8888. .d8888. d88888b d8b   db  d888b  d88888b d8888b.                                  \s
+                    88  `8D `8b  d8'      d8' `8b      88  `8D d8' `8b 88'  YP 88'  YP 88'     888o  88 88' Y8b 88'     88  `8D                                  \s
+                    88oooY'  `8bd8'       88ooo88      88oodD' 88ooo88 `8bo.   `8bo.   88ooooo 88V8o 88 88      88ooooo 88oobY'                                  \s
+                    88~~~b.    88         88~~~88      88~~~   88~~~88   `Y8b.   `Y8b. 88~~~~~ 88 V8o88 88  ooo 88~~~~~ 88`8b                                    \s
+                    88   8D    88         88   88      88      88   88 db   8D db   8D 88.     88  V888 88. ~8~ 88.     88 `88.                                  \s
+                    Y8888P'    YP         YP   YP      88      YP   YP `8888Y' `8888Y' Y88888P VP   V8P  Y888P  Y88888P 88   YD                                  \s
+                                                                                                                                                                 \s
+                                                                                                                                                                 \s
+                                        
+                    """;
+        }else{
+            artWork = """
+
+                    db       .d88b.   d888b   d888b  d88888b d8888b.       .d88b.  db    db d888888b\s
+                    88      .8P  Y8. 88' Y8b 88' Y8b 88'     88  `8D      .8P  Y8. 88    88 `~~88~~'\s
+                    88      88    88 88      88      88ooooo 88   88      88    88 88    88    88   \s
+                    88      88    88 88  ooo 88  ooo 88~~~~~ 88   88      88    88 88    88    88   \s
+                    88booo. `8b  d8' 88. ~8~ 88. ~8~ 88.     88  .8D      `8b  d8' 88b  d88    88   \s
+                    Y88888P  `Y88P'   Y888P   Y888P  Y88888P Y8888D'       `Y88P'  ~Y8888P'    YP   \s
+                                                                                                    \s
+                                                                                                    \s
+                    """;
+        }
+
+        System.out.println(artWork);
+    }
 }
