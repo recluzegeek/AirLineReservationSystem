@@ -11,6 +11,13 @@ public class FlightReservation implements DisplayClass {
 
     //        ************************************************************ Behaviours/Methods ************************************************************
 
+    /*
+        !!!!!
+                                                         .... Attention ....
+                Don't make any changes/edit in this method until you've guts to remove severe kind of logical bugs....
+        !!!!!
+     */
+
     void bookFlight(String flightNo, int numOfTickets, String userID) {
         boolean isFound = false;
         for (Flight f1 : flight.getFlightList()) {
@@ -22,12 +29,13 @@ public class FlightReservation implements DisplayClass {
                         if (!f1.isCustomerAlreadyAdded(f1.getCustomersInTheFlight(), customer)) {
                             f1.addNewCustomerToFlight(customer);
                         } else {
-                            f1.addTicketsToExistingCustomer(customer, (numOfTickets - 10));
+                            f1.addTicketsToExistingCustomer(customer, numOfTickets);
+                            break;
                         }
                         if (isFlightAlreadyAddedToCustomerList(customer.flightsRegisteredByUser, f1)) {
                             addNumberOfTicketsToExistingBookedFlight(customer, numOfTickets);
                             if (flightIndex(flight.getFlightList(), flight) != -1) {
-                                customer.addExistingFlightToCustomerList(f1, flightIndex(flight.getFlightList(), flight), numOfTickets);
+                                customer.addExistingFlightToCustomerList(flightIndex(flight.getFlightList(), flight), numOfTickets);
                             }
                         } else {
                             customer.addFlightToCustomerList(f1);
@@ -144,20 +152,20 @@ public class FlightReservation implements DisplayClass {
 
     /*overloaded toString() method for displaying all users in a flight....*/
     public String toString(int serialNum, Customer customer, int index) {
-        return String.format("| %-10d | %-10s | %-32s | %-7s | %-27s | %-35s | %-23s |       %-7s  |", (serialNum + 1), customer.getUserID(), customer.getName(),
+        return String.format("%10s| %-10d | %-10s | %-32s | %-7s | %-27s | %-35s | %-23s |       %-7s  |", "", (serialNum + 1), customer.randomIDDisplay(customer.getUserID()), customer.getName(),
                 customer.getAge(), customer.getEmail(), customer.getAddress(), customer.getPhone(), customer.numOfTicketsBookedByUser.get(index));
     }
 
     @Override
     public void displayHeaderForUsers(Flight flight, List<Customer> c) {
-        System.out.printf("\n%60s Displaying Registered Customers for Flight No. \"%-6s\" %s \n\n", "+++++++++++++", flight.getFlightNumber(), "+++++++++++++");
-        System.out.print("+------------+------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+----------------+\n");
-        System.out.printf("| SerialNum  | UserID\t  | Passenger Names                  | Age     | EmailID\t\t     | Home Address\t\t\t   | Phone Number\t     | Booked Tickets |%n");
-        System.out.print("+------------+------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+----------------+\n");
+        System.out.printf("\n%65s Displaying Registered Customers for Flight No. \"%-6s\" %s \n\n", "+++++++++++++", flight.getFlightNumber(), "+++++++++++++");
+        System.out.printf("%10s+------------+------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+----------------+\n", "");
+        System.out.printf("%10s| SerialNum  |   UserID   | Passenger Names                  | Age     | EmailID\t\t       | Home Address\t\t\t     | Phone Number\t       | Booked Tickets |%n", "");
+        System.out.printf("%10s+------------+------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+----------------+\n", "");
 
         for (int i = 0; i < flight.getRegisteredNumOfCustomers(); i++) {
             System.out.println(toString(i, c.get(i), flightIndex(c.get(i).flightsRegisteredByUser, flight)));
-            System.out.print("+------------+------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+----------------+\n");
+            System.out.printf("%10s+------------+------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+----------------+\n", "");
         }
     }
 

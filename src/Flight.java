@@ -70,8 +70,7 @@ public class Flight extends FlightDistance {
     }
 
     void addTicketsToExistingCustomer(Customer customer, int numOfTickets) {
-        int newNumOfTickets = customer.numOfTicketsBookedByUser.get(customerIndex) + numOfTickets;
-        customer.numOfTicketsBookedByUser.set(customerIndex, newNumOfTickets);
+        customer.addExistingFlightToCustomerList(customerIndex,numOfTickets);
     }
 
     boolean isCustomerAlreadyAdded(List<Customer> customersList, Customer customer) {
@@ -270,10 +269,6 @@ public class Flight extends FlightDistance {
 
     public String getToWhichCity() {
         return toWhichCity;
-    }
-
-    public void setRegisteredNumOfCustomers(int registeredNumOfCustomers) {
-        this.registeredNumOfCustomers = registeredNumOfCustomers;
     }
 
 }

@@ -79,9 +79,10 @@ public class User {
                         System.out.printf("%-30s (c) Enter 3 to update the Data of the Passenger....\n", "");
                         System.out.printf("%-30s (d) Enter 4 to delete a Passenger....\n", "");
                         System.out.printf("%-30s (e) Enter 5 to Display all Passengers....\n", "");
-                        System.out.printf("%-30s (f) Enter 6 to Display all Registered Passengers in a Flight....\n", "");
-                        System.out.printf("%-30s (g) Enter 7 to Delete a Flight....\n", "");
-                        System.out.printf("%-30s (h) Enter 0 to Go back to the Main Menu/Logout....\n", "");
+                        System.out.printf("%-30s (f) Enter 6 to Display all flights registered by a Passenger...\n", "");
+                        System.out.printf("%-30s (g) Enter 7 to Display all registered Passengers in a Flight....\n", "");
+                        System.out.printf("%-30s (h) Enter 8 to Delete a Flight....\n", "");
+                        System.out.printf("%-30s (i) Enter 0 to Go back to the Main Menu/Logout....\n", "");
                         System.out.print("Enter the desired Choice :   ");
                         desiredOption = read.nextInt();
                         /*If 1 is entered by the privileged user, then add a new customer......*/
@@ -128,7 +129,12 @@ public class User {
                         } else if (desiredOption == 5) {
                             /*Call the Display Method of Customer Class....*/
                             c1.display();
-                        } else if (desiredOption == 6) {
+                        }else if(desiredOption==6){
+                            c1.display();
+                            System.out.print("\n\nEnter the ID of the user to display all flights registered by that user...");
+                            String id = read1.nextLine();
+                            bookingAndReserving.displayFlightsRegisteredByOneUser(id);
+                        } else if (desiredOption == 7) {
                             System.out.print("Do you want to display Passengers of all flights or a specific flight.... 'Y/y' for displaying all flights and 'N/n' to look for a" +
                                     " specific flight.... ");
                             char choice = read1.nextLine().charAt(0);
@@ -142,7 +148,7 @@ public class User {
                             } else {
                                 System.out.println("Invalid Choice...No Response...!");
                             }
-                        } else if (desiredOption == 7) {
+                        } else if (desiredOption == 8) {
                             f1.displayFlightSchedule();
                             System.out.print("Enter the Flight Number to delete the flight : ");
                             String flightNum = read1.nextLine();

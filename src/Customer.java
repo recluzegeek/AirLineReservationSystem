@@ -48,7 +48,7 @@ public class Customer {
         numOfFlights++;
     }
 
-    void addExistingFlightToCustomerList(Flight f, int index,int numOfTickets){
+    void addExistingFlightToCustomerList(int index, int numOfTickets){
         int newNumOfTickets = numOfTicketsBookedByUser.get(index) + numOfTickets;
         this.numOfTicketsBookedByUser.set(index,newNumOfTickets);
     }
@@ -78,7 +78,7 @@ public class Customer {
     }
 
     private String toString(int i) {
-        return String.format("| %-10d | %-10s | %-32s | %-7s | %-27s | %-35s | %-23s |", i, userID, name, age, email, address, phone);
+        return String.format("%10s| %-10d | %-10s | %-32s | %-7s | %-27s | %-35s | %-23s |","", i, randomIDDisplay(userID), name, age, email, address, phone);
     }
 
     public void searchUser(String ID) {
@@ -163,17 +163,29 @@ public class Customer {
         Customer c1 = new Customer();
         Iterator<Customer> iterator = c1.customerCollection.iterator();
         System.out.println();
-        System.out.print("+------------+------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+\n");
-        System.out.printf("| SerialNum  | UserID\t  | Passenger Names                  | Age     | EmailID\t\t     | Home Address\t\t\t   | Phone Number\t     |%n");
-        System.out.print("+------------+------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+\n");
+        System.out.printf("%10s+------------+------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+\n","");
+        System.out.printf("%10s| SerialNum  |   UserID   | Passenger Names                  | Age     | EmailID\t\t       | Home Address\t\t\t     | Phone Number\t       |%n","");
+        System.out.printf("%10s+------------+------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+\n","");
         System.out.println();
         int i = 0;
         while (iterator.hasNext()) {
             i++;
             Customer c = iterator.next();
             System.out.println(c.toString(i));
-            System.out.print("+------------+------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+\n");
+            System.out.printf("%10s+------------+------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+\n","");
         }
+    }
+
+    String randomIDDisplay(String randomID) {
+        StringBuilder newString = new StringBuilder();
+        for (int i = 0; i <= randomID.length(); i++) {
+            if (i == 3) {
+                newString.append(" ").append(randomID.charAt(i));
+            } else if (i < randomID.length()) {
+                newString.append(randomID.charAt(i));
+            }
+        }
+        return newString.toString();
     }
 
     //        ************************************************************ Setters & Getters ************************************************************
