@@ -204,7 +204,7 @@ public class FlightReservation implements DisplayClass {
 
     @Override
     public void displayArtWork(int option) {
-        String artWork="";
+        String artWork;
         if(option==1){
             artWork = """
                     
@@ -215,7 +215,7 @@ public class FlightReservation implements DisplayClass {
                     88   8D `8b  d8' `8b  d8' 88 `88.      88      88booo.   .88.   88. ~8~ 88   88    88   \s
                     Y8888P'  `Y88P'   `Y88P'  YP   YD      YP      Y88888P Y888888P  Y888P  YP   YP    YP   \s
                                                                                                             \s
-                                                                                                            \s                                                                                                                     \s                                                                                                                         
+                                                                                                            \s                                                                                                                     \s\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040
                     """;
         }else if (option==2){
             artWork = """
@@ -251,7 +251,7 @@ public class FlightReservation implements DisplayClass {
                     88 `88. 88   88 88  V888 88  .8D `8b  d8' 88  88  88      88      88booo.   .88.   88. ~8~ 88   88    88         db   8D Y8b  d8 88   88 88.     88  .8D 88b  d88 88booo. 88.    \s
                     88   YD YP   YP VP   V8P Y8888D'  `Y88P'  YP  YP  YP      YP      Y88888P Y888888P  Y888P  YP   YP    YP         `8888Y'  `Y88P' YP   YP Y88888P Y8888D' ~Y8888P' Y88888P Y88888P\s
                                                                                                                                                                                                      \s
-                    Are you thinking that it's not random schedule...Then you can confirm it by re-running the program...                                                                                                                                                           \s                                        
+                    Are you thinking that it's not random schedule...Then you can confirm it by re-running the program...                                                                                                                                                           \s\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040
                     """;
         }else if (option==5){
             artWork = """
