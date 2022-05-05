@@ -4,20 +4,19 @@ public class Customer {
 
     //        ************************************************************ Fields ************************************************************
     private final String userID;
-    private String name;
     private String email;
+    private String name;
     private String phone;
     private final String password;
     private String address;
     private int age;
     public List<Flight> flightsRegisteredByUser;
-    private int numOfFlights;
     public List<Integer> numOfTicketsBookedByUser;
-    public final List<Customer> customerCollection = User.getCustomersCollection();
+    public static final List<Customer> customerCollection = User.getCustomersCollection();
 
     //        ************************************************************ Behaviours/Methods ************************************************************
 
-    /*  0-Argument constructor of Customer class*/
+
     Customer() {
         this.userID = null;
         this.name = null;
@@ -28,6 +27,17 @@ public class Customer {
         this.age = 0;
     }
 
+    /**
+     * Registers new customer to the program. Obj of RandomGenerator(Composition) is
+     * being used to assign unique userID to the newly created customer.
+     *
+     * @param name     name of the customer
+     * @param email    customer's email
+     * @param password customer's account password
+     * @param phone    customer's phone-number
+     * @param address  customer's address
+     * @param age      customer's age
+     */
     Customer(String name, String email, String password, String phone, String address, int age) {
         RandomGenerator random = new RandomGenerator();
         random.randomIDGen();
@@ -40,22 +50,15 @@ public class Customer {
         this.age = age;
         this.flightsRegisteredByUser = new ArrayList<>();
         this.numOfTicketsBookedByUser = new ArrayList<>();
-        this.numOfFlights = 0;
     }
 
-    void addFlightToCustomerList(Flight f) {
-        this.flightsRegisteredByUser.add(f);
-        numOfFlights++;
-    }
-
-    void addExistingFlightToCustomerList(int index, int numOfTickets) {
-        int newNumOfTickets = numOfTicketsBookedByUser.get(index) + numOfTickets;
-        this.numOfTicketsBookedByUser.set(index, newNumOfTickets);
-    }
-
+    /**
+     * Takes input for the new customer and adds them to programs memory. isUniqueData() validates the entered email
+     * and returns true if the entered email is already registered. If email is already registered, program will ask the user
+     * to enter new email address to get himself register.
+     */
     public void addNewCustomer() {
         System.out.printf("\n\n\n%60s ++++++++++++++ Welcome to the Customer Registration Portal ++++++++++++++", "");
-        Customer c1 = new Customer();
         Scanner read = new Scanner(System.in);
         System.out.print("\nEnter your name :\t");
         String name = read.nextLine();
@@ -74,13 +77,25 @@ public class Customer {
         String address = read.nextLine();
         System.out.print("Enter your age :\t");
         int age = read.nextInt();
-        c1.customerCollection.add(new Customer(name, email, password, phone, address, age));
+        customerCollection.add(new Customer(name, email, password, phone, address, age));
     }
 
+    /**
+     * Returns String consisting of customers data(name, age, email etc...) for displaying.
+     * randomIDDisplay() adds space between the userID for easy readability.
+     *
+     * @param i for serial numbers.
+     * @return customers data in String
+     */
     private String toString(int i) {
         return String.format("%10s| %-10d | %-10s | %-32s | %-7s | %-27s | %-35s | %-23s |", "", i, randomIDDisplay(userID), name, age, email, address, phone);
     }
 
+    /**
+     * Searches for customer with the given ID and displays the customers' data if found.
+     *
+     * @param ID of the searching/required customer
+     */
     public void searchUser(String ID) {
         boolean isFound = false;
         Customer customerWithTheID = customerCollection.get(0);
@@ -101,10 +116,14 @@ public class Customer {
         }
     }
 
+    /**
+     * Returns true if the given emailID is already registered, false otherwise
+     *
+     * @param emailID to be checked in the list
+     */
     public boolean isUniqueData(String emailID) {
-        Customer c1 = new Customer();
         boolean isUnique = false;
-        for (Customer c : c1.customerCollection) {
+        for (Customer c : customerCollection) {
             if (emailID.equals(c.getEmail())) {
                 isUnique = true;
                 break;
@@ -114,10 +133,9 @@ public class Customer {
     }
 
     public void editUserInfo(String ID) {
-        Customer c1 = new Customer();
         boolean isFound = false;
         Scanner read = new Scanner(System.in);
-        for (Customer c : c1.customerCollection) {
+        for (Customer c : customerCollection) {
             if (ID.equals(c.getUserID())) {
                 isFound = true;
                 System.out.print("\nEnter the new name of the Passenger:\t");
@@ -131,7 +149,7 @@ public class Customer {
                 c.setAddress(read.nextLine());
                 System.out.print("Enter the new age of Passenger " + name + ":\t");
                 c.setAge(read.nextInt());
-                display(false);
+                displayCustomersData(false);
                 break;
             }
         }
@@ -141,9 +159,8 @@ public class Customer {
     }
 
     public void deleteUser(String ID) {
-        Customer c1 = new Customer();
         boolean isFound = false;
-        Iterator<Customer> iterator = c1.customerCollection.iterator();
+        Iterator<Customer> iterator = customerCollection.iterator();
         while (iterator.hasNext()) {
             Customer customer = iterator.next();
             if (ID.equals(customer.getUserID())) {
@@ -154,19 +171,22 @@ public class Customer {
         if (isFound) {
             iterator.remove();
             System.out.printf("\n%-50sPrinting all  Customer's Data after deleting Customer with the ID %s.....!!!!\n", "", ID);
-            display(false);
+            displayCustomersData(false);
         } else {
             System.out.printf("%-50sNo Customer with the ID %s Found...!!!\n", " ", ID);
         }
     }
 
-    public void display(boolean showHeader) {
-        Customer c1 = new Customer();
+    /**
+     * Shows the customers' data in formatted way.
+     * @param showHeader to check if we want to print ascii art for the customers' data.
+     */
+    public void displayCustomersData(boolean showHeader) {
         if (showHeader) {
             displayArtWork(3);
         }
         displayHeader();
-        Iterator<Customer> iterator = c1.customerCollection.iterator();
+        Iterator<Customer> iterator = customerCollection.iterator();
         int i = 0;
         while (iterator.hasNext()) {
             i++;
@@ -176,6 +196,9 @@ public class Customer {
         }
     }
 
+    /**
+     * Shows the header for printing customers data
+     */
     void displayHeader() {
         System.out.println();
         System.out.printf("%10s+------------+------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+\n", "");
@@ -185,6 +208,16 @@ public class Customer {
 
     }
 
+    /**
+     * Adds space between userID to increase its readability
+     * <p>
+     * Example:
+     * </p>
+     * <b>"920 191" is much more readable than "920191"</b>
+     *
+     * @param randomID id to add space
+     * @return randomID with added space
+     */
     String randomIDDisplay(String randomID) {
         StringBuilder newString = new StringBuilder();
         for (int i = 0; i <= randomID.length(); i++) {
@@ -197,6 +230,31 @@ public class Customer {
         return newString.toString();
     }
 
+    /**
+     * Associates a new flight with the specified customer
+     *
+     * @param f flight to associate
+     */
+    void addNewFlightToCustomerList(Flight f) {
+        this.flightsRegisteredByUser.add(f);
+//        numOfFlights++;
+    }
+
+    /**
+     * Adds numOfTickets to already booked flights
+     * @param index at which flight is registered in the arraylist
+     * @param numOfTickets how many tickets to add
+     */
+    void addExistingFlightToCustomerList(int index, int numOfTickets) {
+        int newNumOfTickets = numOfTicketsBookedByUser.get(index) + numOfTickets;
+        this.numOfTicketsBookedByUser.set(index, newNumOfTickets);
+    }
+
+    /**
+     * Prints out <b>"ASCII Art"</b> for the specified words.
+     *
+     * @param option specifies which word to print.
+     */
     void displayArtWork(int option) {
         String artWork = "";
         if (option == 1) {
@@ -305,14 +363,6 @@ public class Customer {
         return name;
     }
 
-    public void setNumOfFlights(int numOfFlights) {
-        this.numOfFlights = numOfFlights;
-    }
-
-    public int getNumOfFlights() {
-        return numOfFlights;
-    }
-
     public List<Integer> getNumOfTicketsBookedByUser() {
         return numOfTicketsBookedByUser;
     }
@@ -337,5 +387,3 @@ public class Customer {
         this.age = age;
     }
 }
-
-

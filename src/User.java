@@ -1,6 +1,8 @@
-/*This class is intended to be the main class for this Project...Here we'll be calling all the necessary methods
- * to perform the first-level implementation of the project like calling the login-method, registering user etc....
- *  */
+/*
+ * This class is intended to be the main class for this Project. All necessary methods are getting calls from this class.
+ *
+ *
+ */
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,17 +12,11 @@ public class User {
 
     //        ************************************************************ Fields ************************************************************
 
-    /*2D Array to store credentials.... Default credentials are stored on 0 index....Max num of users can be 10....*/
+    /*2D Array to store admin credentials. Default credentials are stored on [0][0] index. Max num of admins can be 10....*/
     static String[][] adminUserNameAndPassword = new String[10][2];
-
-    /*Created a List of Customer Class using the name of customersCollection */
-    public static List<Customer> customersCollection = new ArrayList<>();
+    private static List<Customer> customersCollection = new ArrayList<>();
 
     //        ************************************************************ Behaviours/Methods ************************************************************
-
-    public static List<Customer> getCustomersCollection() {
-        return customersCollection;
-    }
 
     public static void main(String[] args) {
         int countNumOfUsers = 1;
@@ -29,20 +25,20 @@ public class User {
         FlightReservation bookingAndReserving = new FlightReservation();
         Customer c1 = new Customer();
         f1.flightScheduler();
-//        Main Menu
         Scanner read = new Scanner(System.in);
 
-        User.welcomeScreen();
+
+        welcomeScreen(1);
         System.out.println("\n\t\t\t\t\t+++++++++++++ Welcome to BAV AirLines +++++++++++++\n\nTo Further Proceed, Please enter a value.");
         System.out.println("\n***** Default Username && Password is root-root ***** Using Default Credentials will restrict you to just view the list of Passengers....\n");
         displayMainMenu();
         int desiredOption = read.nextInt();
-        /*Doing Input-Validation*/
         while (desiredOption < 0 || desiredOption > 8) {
             System.out.print("ERROR!! Please enter value between 0 - 4. Enter the value again :\t");
             desiredOption = read.nextInt();
         }
-        /*Do-while loop to iterate or ask the option continuously until user enter 0 */
+
+
         do {
             Scanner read1 = new Scanner(System.in);
             /* If desiredOption is 1 then call the login method.... if default credentials are used then set the permission
@@ -51,11 +47,10 @@ public class User {
              * */
             if (desiredOption == 1) {
 
-                /*Setting the default username and password....*/
+                /*Default username and password....*/
                 adminUserNameAndPassword[0][0] = "root";
                 adminUserNameAndPassword[0][1] = "root";
                 printArtWork(1);
-                /*Asking for the usernames && passwords....*/
                 System.out.print("\nEnter the UserName to login to the Management System :     ");
                 String username = read1.nextLine();
                 System.out.print("Enter the Password to login to the Management System :    ");
@@ -67,7 +62,7 @@ public class User {
                     System.out.printf("\n%20sERROR!!! Unable to login Cannot find user with the entered credentials.... Try Creating New Credentials or get yourself register by pressing 4....\n", "");
                 } else if (r1.isPrivilegedUserOrNot(username, password) == 0) {
                     System.out.println("You've standard/default privileges to access the data... You can just view customers data..." + "Can't perform any actions on them....");
-                    c1.display(true);
+                    c1.displayCustomersData(true);
                 } else {
                     System.out.printf("%-20sLogged in Successfully as \"%s\"..... For further Proceedings, enter a value from below....", "", username);
 
@@ -94,7 +89,7 @@ public class User {
                         } else if (desiredOption == 2) {
                             /*If 2 is entered by the privileged user, then call the search method of the Customer class*/
                             c1.displayArtWork(2);
-                            c1.display(false);
+                            c1.displayCustomersData(false);
                             System.out.print("Enter the CustomerID to Search :\t");
                             String customerID = read1.nextLine();
                             System.out.println();
@@ -104,7 +99,7 @@ public class User {
                              * arguments.....
                              * */
                             bookingAndReserving.displayArtWork(2);
-                            c1.display(false);
+                            c1.displayCustomersData(false);
                             System.out.print("Enter the CustomerID to Update its Data :\t");
                             String customerID = read1.nextLine();
                             if (customersCollection.size() > 0) {
@@ -118,7 +113,7 @@ public class User {
                              * that customer....
                              * */
                             bookingAndReserving.displayArtWork(3);
-                            c1.display(false);
+                            c1.displayCustomersData(false);
                             System.out.print("Enter the CustomerID to Delete its Data :\t");
                             String customerID = read1.nextLine();
                             if (customersCollection.size() > 0) {
@@ -129,10 +124,10 @@ public class User {
                         } else if (desiredOption == 5) {
                             /*Call the Display Method of Customer Class....*/
                             c1.displayArtWork(3);
-                            c1.display(false);
+                            c1.displayCustomersData(false);
                         } else if (desiredOption == 6) {
                             bookingAndReserving.displayArtWork(6);
-                            c1.display(false);
+                            c1.displayCustomersData(false);
                             System.out.print("\n\nEnter the ID of the user to display all flights registered by that user...");
                             String id = read1.nextLine();
                             bookingAndReserving.displayFlightsRegisteredByOneUser(id);
@@ -178,6 +173,12 @@ public class User {
                 String username = read1.nextLine();
                 System.out.print("Enter the Password to Register :     ");
                 String password = read1.nextLine();
+                while (r1.isPrivilegedUserOrNot(username, password) != -1) {
+                    System.out.print("ERROR!!! Admin with same UserName already exist. Enter new UserName:   ");
+                    username = read1.nextLine();
+                    System.out.print("Enter the Password Again:   ");
+                    password = read1.nextLine();
+                }
 
                 /*Setting the credentials entered by the user.....*/
                 adminUserNameAndPassword[countNumOfUsers][0] = username;
@@ -274,7 +275,7 @@ public class User {
                 desiredOption = read1.nextInt();
             }
         } while (desiredOption != 0);
-        System.out.printf("%n%-50sFlying with Trust for Five Decades ...!\n\n\n", "");
+        welcomeScreen(-1);
     }
 
     static void displayMainMenu() {
@@ -326,22 +327,48 @@ public class User {
         }
     }
 
-    static void welcomeScreen() {
-        String artWork = """
+    static void welcomeScreen(int option) {
+        String artWork;
 
-                888       888          888                                                888                   888888b.          d8888 888     888              d8888 d8b         888 d8b                           \s
-                888   o   888          888                                                888                   888  "88b        d88888 888     888             d88888 Y8P         888 Y8P                           \s
-                888  d8b  888          888                                                888                   888  .88P       d88P888 888     888            d88P888             888                               \s
-                888 d888b 888  .d88b.  888  .d8888b  .d88b.  88888b.d88b.   .d88b.        888888  .d88b.        8888888K.      d88P 888 Y88b   d88P           d88P 888 888 888d888 888 888 88888b.   .d88b.  .d8888b \s
-                888d88888b888 d8P  Y8b 888 d88P"    d88""88b 888 "888 "88b d8P  Y8b       888    d88""88b       888  "Y88b    d88P  888  Y88b d88P           d88P  888 888 888P"   888 888 888 "88b d8P  Y8b 88K     \s
-                88888P Y88888 88888888 888 888      888  888 888  888  888 88888888       888    888  888       888    888   d88P   888   Y88o88P           d88P   888 888 888     888 888 888  888 88888888 "Y8888b.\s
-                8888P   Y8888 Y8b.     888 Y88b.    Y88..88P 888  888  888 Y8b.           Y88b.  Y88..88P       888   d88P  d8888888888    Y888P           d8888888888 888 888     888 888 888  888 Y8b.          X88\s
-                888P     Y888  "Y8888  888  "Y8888P  "Y88P"  888  888  888  "Y8888         "Y888  "Y88P"        8888888P"  d88P     888     Y8P           d88P     888 888 888     888 888 888  888  "Y8888   88888P'\s
-                                                                                                                                                                                                                     \s
-                                                                                                                                                                                                                     \s
-                                                                                                                                                                                                                     \s
-                """;
+        if (option == 1) {
+            artWork = """
 
+                    888       888          888                                                888                   888888b.          d8888 888     888              d8888 d8b         888 d8b                           \s
+                    888   o   888          888                                                888                   888  "88b        d88888 888     888             d88888 Y8P         888 Y8P                           \s
+                    888  d8b  888          888                                                888                   888  .88P       d88P888 888     888            d88P888             888                               \s
+                    888 d888b 888  .d88b.  888  .d8888b  .d88b.  88888b.d88b.   .d88b.        888888  .d88b.        8888888K.      d88P 888 Y88b   d88P           d88P 888 888 888d888 888 888 88888b.   .d88b.  .d8888b \s
+                    888d88888b888 d8P  Y8b 888 d88P"    d88""88b 888 "888 "88b d8P  Y8b       888    d88""88b       888  "Y88b    d88P  888  Y88b d88P           d88P  888 888 888P"   888 888 888 "88b d8P  Y8b 88K     \s
+                    88888P Y88888 88888888 888 888      888  888 888  888  888 88888888       888    888  888       888    888   d88P   888   Y88o88P           d88P   888 888 888     888 888 888  888 88888888 "Y8888b.\s
+                    8888P   Y8888 Y8b.     888 Y88b.    Y88..88P 888  888  888 Y8b.           Y88b.  Y88..88P       888   d88P  d8888888888    Y888P           d8888888888 888 888     888 888 888  888 Y8b.          X88\s
+                    888P     Y888  "Y8888  888  "Y8888P  "Y88P"  888  888  888  "Y8888         "Y888  "Y88P"        8888888P"  d88P     888     Y8P           d88P     888 888 888     888 888 888  888  "Y8888   88888P'\s
+                                                                                                                                                                                                                         \s
+                                                                                                                                                                                                                         \s
+                                                                                                                                                                                                                         \s
+                    """;
+        } else {
+            artWork = """
+                                        
+                                        
+                                        
+                                        
+                    d88888b db      db    db d888888b d8b   db  d888b       db   d8b   db d888888b d888888b db   db      d888888b d8888b. db    db .d8888. d888888b      \s
+                    88'     88      `8b  d8'   `88'   888o  88 88' Y8b      88   I8I   88   `88'   `~~88~~' 88   88      `~~88~~' 88  `8D 88    88 88'  YP `~~88~~'      \s
+                    88ooo   88       `8bd8'     88    88V8o 88 88           88   I8I   88    88       88    88ooo88         88    88oobY' 88    88 `8bo.      88         \s
+                    88~~~   88         88       88    88 V8o88 88  ooo      Y8   I8I   88    88       88    88~~~88         88    88`8b   88    88   `Y8b.    88         \s
+                    88      88booo.    88      .88.   88  V888 88. ~8~      `8b d8'8b d8'   .88.      88    88   88         88    88 `88. 88b  d88 db   8D    88         \s
+                    YP      Y88888P    YP    Y888888P VP   V8P  Y888P        `8b8' `8d8'  Y888888P    YP    YP   YP         YP    88   YD ~Y8888P' `8888Y'    YP         \s
+                                                                                                                                                                         \s
+                                                                                                                                                                         \s
+                    d88888b  .d88b.  d8888b.      d88888b d888888b db    db d88888b      d8888b. d88888b  .o88b.  .d8b.  d8888b. d88888b .d8888.                       db\s
+                    88'     .8P  Y8. 88  `8D      88'       `88'   88    88 88'          88  `8D 88'     d8P  Y8 d8' `8b 88  `8D 88'     88'  YP                       88\s
+                    88ooo   88    88 88oobY'      88ooo      88    Y8    8P 88ooooo      88   88 88ooooo 8P      88ooo88 88   88 88ooooo `8bo.                         YP\s
+                    88~~~   88    88 88`8b        88~~~      88    `8b  d8' 88~~~~~      88   88 88~~~~~ 8b      88~~~88 88   88 88~~~~~   `Y8b.                         \s
+                    88      `8b  d8' 88 `88.      88        .88.    `8bd8'  88.          88  .8D 88.     Y8b  d8 88   88 88  .8D 88.     db   8D      db db db db      db\s
+                    YP       `Y88P'  88   YD      YP      Y888888P    YP    Y88888P      Y8888D' Y88888P  `Y88P' YP   YP Y8888D' Y88888P `8888Y'      VP VP VP VP      YP\s
+                                                                                                                                                                         \s
+                                                                                                                                                                         \s
+                    """;
+        }
         System.out.println(artWork);
     }
 
@@ -398,5 +425,11 @@ public class User {
         }
 
         System.out.println(artWork);
+    }
+
+    //        ************************************************************ Setters & Getters ************************************************************
+
+    public static List<Customer> getCustomersCollection() {
+        return customersCollection;
     }
 }

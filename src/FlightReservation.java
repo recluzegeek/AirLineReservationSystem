@@ -1,3 +1,10 @@
+/*
+* FlightReservation class allows the user to book, cancel and check the status of the registered flights.
+*
+*
+* */
+
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
@@ -7,7 +14,6 @@ public class FlightReservation implements DisplayClass {
     //        ************************************************************ Fields ************************************************************
     Flight flight = new Flight();
     int flightIndexInFlightList;
-    Customer c1 = new Customer();
 
     //        ************************************************************ Behaviours/Methods ************************************************************
 
@@ -18,11 +24,22 @@ public class FlightReservation implements DisplayClass {
         !!!!!
      */
 
+    /**
+     * Book the numOfTickets for said flight for the specified user. Update the available seats in main system by
+     * Subtracting the numOfTickets from the main system. If a new customer registers for the flight, then it adds
+     * the customer to that flight, else if the user is already added to that flight, then it just updates the
+     * numOfSeats of that flight.
+     *
+     *
+     * @param flightNo FlightID of the flight to be booked
+     * @param numOfTickets number of tickets to be booked
+     * @param userID userID of the user which is booking the flight
+     */
     void bookFlight(String flightNo, int numOfTickets, String userID) {
         boolean isFound = false;
         for (Flight f1 : flight.getFlightList()) {
             if (flightNo.equalsIgnoreCase(f1.getFlightNumber())) {
-                for (Customer customer : c1.customerCollection) {
+                for (Customer customer : Customer.customerCollection) {
                     if (userID.equals(customer.getUserID())) {
                         isFound = true;
                         f1.setNoOfSeatsInTheFlight(f1.getNoOfSeats() - numOfTickets);
@@ -33,12 +50,12 @@ public class FlightReservation implements DisplayClass {
                             break;
                         }
                         if (isFlightAlreadyAddedToCustomerList(customer.flightsRegisteredByUser, f1)) {
-                            addNumberOfTicketsToExistingBookedFlight(customer, numOfTickets);
+                            addNumberOfTicketsToAlreadyBookedFlight(customer, numOfTickets);
                             if (flightIndex(flight.getFlightList(), flight) != -1) {
                                 customer.addExistingFlightToCustomerList(flightIndex(flight.getFlightList(), flight), numOfTickets);
                             }
                         } else {
-                            customer.addFlightToCustomerList(f1);
+                            customer.addNewFlightToCustomerList(f1);
                             addNumberOfTicketsForNewFlight(customer, numOfTickets);
                             break;
                         }
@@ -53,14 +70,20 @@ public class FlightReservation implements DisplayClass {
         }
     }
 
-    /*Cancel a flight registered by the user....*/
+    /**
+     * Cancels the flight for a particular user and return/add the numOfTickets back to
+     * the main flight scheduler.
+     *
+     * @param userID ID of the user for whom the flight is to be cancelled
+     * @param flightNum ID of the flight to be cancelled
+     */
     void cancelFlight(String userID, String flightNum) {
         Scanner read = new Scanner(System.in);
         System.out.print("Enter the number of tickets to cancel : ");
         int numOfTickets = read.nextInt();
         int index = 0, ticketsToBeReturned;
         boolean isFound = false;
-        for (Customer customer : c1.customerCollection) {
+        for (Customer customer : Customer.customerCollection) {
             if (userID.equals(customer.getUserID())) {
                 Iterator<Flight> flightIterator = customer.getFlightsRegisteredByUser().iterator();
                 while (flightIterator.hasNext()) {
@@ -73,7 +96,6 @@ public class FlightReservation implements DisplayClass {
                             numOfTickets = read.nextInt();
                         }
                         if (numOfTicketsForFlight == numOfTickets) {
-                            customer.setNumOfFlights(customer.getNumOfFlights() - 1);
                             ticketsToBeReturned = flight.getNoOfSeats() + numOfTicketsForFlight;
                             flightIterator.remove();
                         } else {
@@ -92,7 +114,7 @@ public class FlightReservation implements DisplayClass {
         }
     }
 
-    void addNumberOfTicketsToExistingBookedFlight(Customer customer, int numOfTickets) {
+    void addNumberOfTicketsToAlreadyBookedFlight(Customer customer, int numOfTickets) {
         int newNumOfTickets = customer.numOfTicketsBookedByUser.get(flightIndexInFlightList) + numOfTickets;
         customer.numOfTicketsBookedByUser.set(flightIndexInFlightList, newNumOfTickets);
     }
@@ -139,10 +161,11 @@ public class FlightReservation implements DisplayClass {
         System.out.print("+------+-------------------------------------------+-----------+------------------+-----------------------+------------------------+---------------------------+-------------+--------+-----------------+\n");
         System.out.printf("| Num  | FLIGHT SCHEDULE\t\t\t   | FLIGHT NO |  Booked Tickets  | \tFROM ====>>       | \t====>> TO\t   | \t    ARRIVAL TIME       | FLIGHT TIME |  GATE  |  FLIGHT STATUS  |%n");
         System.out.print("+------+-------------------------------------------+-----------+------------------+-----------------------+------------------------+---------------------------+-------------+--------+-----------------+\n");
-        for (Customer customer : c1.customerCollection) {
+        for (Customer customer : Customer.customerCollection) {
             List<Flight> f = customer.getFlightsRegisteredByUser();
+            int size = customer.getFlightsRegisteredByUser().size();
             if (userID.equals(customer.getUserID())) {
-                for (int i = 0; i < customer.getNumOfFlights(); i++) {
+                for (int i = 0; i < size; i++) {
                     System.out.println(toString((i + 1), f.get(i), customer));
                     System.out.print("+------+-------------------------------------------+-----------+------------------+-----------------------+------------------------+---------------------------+-------------+--------+-----------------+\n");
                 }
@@ -151,6 +174,7 @@ public class FlightReservation implements DisplayClass {
     }
 
     /*overloaded toString() method for displaying all users in a flight....*/
+
     public String toString(int serialNum, Customer customer, int index) {
         return String.format("%10s| %-10d | %-10s | %-32s | %-7s | %-27s | %-35s | %-23s |       %-7s  |", "", (serialNum + 1), customer.randomIDDisplay(customer.getUserID()), customer.getName(),
                 customer.getAge(), customer.getEmail(), customer.getAddress(), customer.getPhone(), customer.numOfTicketsBookedByUser.get(index));
@@ -162,8 +186,8 @@ public class FlightReservation implements DisplayClass {
         System.out.printf("%10s+------------+------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+----------------+\n", "");
         System.out.printf("%10s| SerialNum  |   UserID   | Passenger Names                  | Age     | EmailID\t\t       | Home Address\t\t\t     | Phone Number\t       | Booked Tickets |%n", "");
         System.out.printf("%10s+------------+------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+----------------+\n", "");
-
-        for (int i = 0; i < flight.getRegisteredNumOfCustomers(); i++) {
+        int size = flight.getCustomersInTheFlight().size();
+        for (int i = 0; i < size; i++) {
             System.out.println(toString(i, c.get(i), flightIndex(c.get(i).flightsRegisteredByUser, flight)));
             System.out.printf("%10s+------------+------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+----------------+\n", "");
         }
@@ -174,9 +198,9 @@ public class FlightReservation implements DisplayClass {
         System.out.println();
         for (Flight flight : flight.getFlightList()) {
             List<Customer> c = flight.getCustomersInTheFlight();
-            if (flight.getRegisteredNumOfCustomers() != 0) {
+            int size = flight.getCustomersInTheFlight().size();
+            if (size!= 0) {
                 displayHeaderForUsers(flight, c);
-
             }
         }
     }
@@ -215,7 +239,7 @@ public class FlightReservation implements DisplayClass {
                     88   8D `8b  d8' `8b  d8' 88 `88.      88      88booo.   .88.   88. ~8~ 88   88    88   \s
                     Y8888P'  `Y88P'   `Y88P'  YP   YD      YP      Y88888P Y888888P  Y888P  YP   YP    YP   \s
                                                                                                             \s
-                                                                                                            \s                                                                                                                     \s\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040
+                                                                                                            \s
                     """;
         }else if (option==2){
             artWork = """
@@ -243,7 +267,7 @@ public class FlightReservation implements DisplayClass {
                     """;
         }else if (option==4){
             artWork = """
-                    
+
                     d8888b.  .d8b.  d8b   db d8888b.  .d88b.  .88b  d88.      d88888b db      d888888b  d888b  db   db d888888b      .d8888.  .o88b. db   db d88888b d8888b. db    db db      d88888b\s
                     88  `8D d8' `8b 888o  88 88  `8D .8P  Y8. 88'YbdP`88      88'     88        `88'   88' Y8b 88   88 `~~88~~'      88'  YP d8P  Y8 88   88 88'     88  `8D 88    88 88      88'    \s
                     88oobY' 88ooo88 88V8o 88 88   88 88    88 88  88  88      88ooo   88         88    88      88ooo88    88         `8bo.   8P      88ooo88 88ooooo 88   88 88    88 88      88ooooo\s
@@ -251,7 +275,7 @@ public class FlightReservation implements DisplayClass {
                     88 `88. 88   88 88  V888 88  .8D `8b  d8' 88  88  88      88      88booo.   .88.   88. ~8~ 88   88    88         db   8D Y8b  d8 88   88 88.     88  .8D 88b  d88 88booo. 88.    \s
                     88   YD YP   YP VP   V8P Y8888D'  `Y88P'  YP  YP  YP      YP      Y88888P Y888888P  Y888P  YP   YP    YP         `8888Y'  `Y88P' YP   YP Y88888P Y8888D' ~Y8888P' Y88888P Y88888P\s
                                                                                                                                                                                                      \s
-                    Are you thinking that it's not random schedule...Then you can confirm it by re-running the program...                                                                                                                                                           \s\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040\040
+                    Are you thinking that it's not feasible(RandomSchedule)...Then you can confirm it by re-running the program...
                     """;
         }else if (option==5){
             artWork = """
@@ -268,23 +292,22 @@ public class FlightReservation implements DisplayClass {
         }else if (option==6){
             artWork = """
                                         
-                    d8888b. d88888b  d888b  d888888b .d8888. d888888b d88888b d8888b. d8888b.      d88888b db      d888888b  d888b  db   db d888888b .d8888.     \s
-                    88  `8D 88'     88' Y8b   `88'   88'  YP `~~88~~' 88'     88  `8D 88  `8D      88'     88        `88'   88' Y8b 88   88 `~~88~~' 88'  YP     \s
-                    88oobY' 88ooooo 88         88    `8bo.      88    88ooooo 88oobY' 88   88      88ooo   88         88    88      88ooo88    88    `8bo.       \s
-                    88`8b   88~~~~~ 88  ooo    88      `Y8b.    88    88~~~~~ 88`8b   88   88      88~~~   88         88    88  ooo 88~~~88    88      `Y8b.     \s
-                    88 `88. 88.     88. ~8~   .88.   db   8D    88    88.     88 `88. 88  .8D      88      88booo.   .88.   88. ~8~ 88   88    88    db   8D     \s
-                    88   YD Y88888P  Y888P  Y888888P `8888Y'    YP    Y88888P 88   YD Y8888D'      YP      Y88888P Y888888P  Y888P  YP   YP    YP    `8888Y'     \s
-                                        
-                                        
-                    d8888b. db    db       .d8b.       d8888b.  .d8b.  .d8888. .d8888. d88888b d8b   db  d888b  d88888b d8888b.                                  \s
-                    88  `8D `8b  d8'      d8' `8b      88  `8D d8' `8b 88'  YP 88'  YP 88'     888o  88 88' Y8b 88'     88  `8D                                  \s
-                    88oooY'  `8bd8'       88ooo88      88oodD' 88ooo88 `8bo.   `8bo.   88ooooo 88V8o 88 88      88ooooo 88oobY'                                  \s
-                    88~~~b.    88         88~~~88      88~~~   88~~~88   `Y8b.   `Y8b. 88~~~~~ 88 V8o88 88  ooo 88~~~~~ 88`8b                                    \s
-                    88   8D    88         88   88      88      88   88 db   8D db   8D 88.     88  V888 88. ~8~ 88.     88 `88.                                  \s
-                    Y8888P'    YP         YP   YP      88      YP   YP `8888Y' `8888Y' Y88888P VP   V8P  Y888P  Y88888P 88   YD                                  \s
-                                                                                                                                                                 \s
-                                                                                                                                                                 \s
-                                        
+                    d8888b. d88888b  d888b  d888888b .d8888. d888888b d88888b d8888b. d88888b d8888b.      d88888b db      d888888b  d888b  db   db d888888b .d8888.     \s
+                    88  `8D 88'     88' Y8b   `88'   88'  YP `~~88~~' 88'     88  `8D 88'     88  `8D      88'     88        `88'   88' Y8b 88   88 `~~88~~' 88'  YP     \s
+                    88oobY' 88ooooo 88         88    `8bo.      88    88ooooo 88oobY' 88ooooo 88   88      88ooo   88         88    88      88ooo88    88    `8bo.       \s
+                    88`8b   88~~~~~ 88  ooo    88      `Y8b.    88    88~~~~~ 88`8b   88~~~~~ 88   88      88~~~   88         88    88  ooo 88~~~88    88      `Y8b.     \s
+                    88 `88. 88.     88. ~8~   .88.   db   8D    88    88.     88 `88. 88.     88  .8D      88      88booo.   .88.   88. ~8~ 88   88    88    db   8D     \s
+                    88   YD Y88888P  Y888P  Y888888P `8888Y'    YP    Y88888P 88   YD Y88888P Y8888D'      YP      Y88888P Y888888P  Y888P  YP   YP    YP    `8888Y'     \s
+                                                                                                                                                                         \s
+                                                                                                                                                                         \s
+                    d8888b. db    db      d8888b.  .d8b.  .d8888. .d8888. d88888b d8b   db  d888b  d88888b d8888b.                                                       \s
+                    88  `8D `8b  d8'      88  `8D d8' `8b 88'  YP 88'  YP 88'     888o  88 88' Y8b 88'     88  `8D                                                       \s
+                    88oooY'  `8bd8'       88oodD' 88ooo88 `8bo.   `8bo.   88ooooo 88V8o 88 88      88ooooo 88oobY'                                                       \s
+                    88~~~b.    88         88~~~   88~~~88   `Y8b.   `Y8b. 88~~~~~ 88 V8o88 88  ooo 88~~~~~ 88`8b                                                         \s
+                    88   8D    88         88      88   88 db   8D db   8D 88.     88  V888 88. ~8~ 88.     88 `88.                                                       \s
+                    Y8888P'    YP         88      YP   YP `8888Y' `8888Y' Y88888P VP   V8P  Y888P  Y88888P 88   YD                                                       \s
+                                                                                                                                                                         \s
+                                                                                                                                                                         \s
                     """;
         }else{
             artWork = """

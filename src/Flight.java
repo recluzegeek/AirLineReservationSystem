@@ -20,9 +20,8 @@ public class Flight extends FlightDistance {
     private int numOfSeatsInTheFlight;
     private List<Customer> listOfRegisteredCustomersInTheFlight;
     private int customerIndex;
-    private int registeredNumOfCustomers;
     private static int nextFlightDay = 0;
-    private static List<Flight> flightList = new ArrayList<>();
+    private static final List<Flight> flightList = new ArrayList<>();
 
     //        ************************************************************ Behaviours/Methods ************************************************************
 
@@ -48,8 +47,11 @@ public class Flight extends FlightDistance {
         this.gate = gate;
     }
 
+    /**
+     * Schedules the flight
+     */
     public void flightScheduler() {
-        int numOfFlights = 10;
+        int numOfFlights = 15;
         RandomGenerator r1 = new RandomGenerator();
         for (int i = 0; i < numOfFlights; i++) {
             String[][] chosenDestinations = r1.randomDestinations();
@@ -66,7 +68,6 @@ public class Flight extends FlightDistance {
 
     void addNewCustomerToFlight(Customer customer) {
         this.listOfRegisteredCustomersInTheFlight.add(customer);
-        this.registeredNumOfCustomers++;
     }
 
     void addTicketsToExistingCustomer(Customer customer, int numOfTickets) {
@@ -246,10 +247,6 @@ public class Flight extends FlightDistance {
 
     public List<Flight> getFlightList() {
         return flightList;
-    }
-
-    public int getRegisteredNumOfCustomers() {
-        return registeredNumOfCustomers;
     }
 
     public List<Customer> getCustomersInTheFlight() {
