@@ -17,12 +17,6 @@ public class FlightReservation implements DisplayClass {
 
     //        ************************************************************ Behaviours/Methods ************************************************************
 
-    /*
-        !!!!!
-                                                         .... Attention ....
-                Don't make any changes/edit in this method until you've guts to remove severe kind of logical bugs....
-        !!!!!
-     */
 
     /**
      * Book the numOfTickets for said flight for the specified user. Update the available seats in main system by
