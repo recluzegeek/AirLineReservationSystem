@@ -35,7 +35,9 @@ This section displays info about the flights registered by the logged in custome
 ## ![image](https://user-images.githubusercontent.com/72850566/167658720-ef611cf2-d3b6-4d31-bb36-ca8bb789853a.png)
 ## 3. Admin Registration & Login
 The administration bears a heavy responsibility as they've to manage the entire system. An admin can perform **CRUD operations**, manage flights and customers. Following are the responsibilities of the admin for this reservation system.
+## ![image](https://user-images.githubusercontent.com/72850566/167669614-fe53d361-9e05-4693-9631-856bd873204e.png)
 ### a. CRUD Operations
+
 ### b. Delete a Flight
 ### c. Display All Passengers
 ### d. Display All Flights Registered By a Passenger
