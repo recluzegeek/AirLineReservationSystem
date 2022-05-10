@@ -1,3 +1,7 @@
+# Requirements
+#### a. Java 15 or higher required to run .jar file of this project
+#### b. Intellij IDEA / Any Preferred IDE
+
 # AirLineReservationSystem
 A Java-based airline reservation system that uses Object-Oriented Programming. The system can manage customers, admins, flight booking and cancellation.
 It also includes many other features implemented in Java using OOP concepts like inheritance, encapsulation, association, and composition.
@@ -22,7 +26,17 @@ If the user edits his data, logouts eventually and tries to log in with the old 
 If a user decides to delete their account, they can do so and all the data related to the account will be deleted. However, any flights that were registered by the user before they deleted their account will still be in the records.
 ## ![image](https://user-images.githubusercontent.com/72850566/167483584-aa68d166-0ce9-4a5e-a624-c94b0eb9497b.png)
 ### d. Random Flight Schedule
-This segment of the program shows the scheduled flights for this instance. The schedule may change as the program runs again.
+This segment of the program shows the scheduled flights for this instance. The schedule may change as the program runs again. The number of flights in the schedule can be adjusted by adjusting the value of the **numOfFlights** variable in the **Flight class's flightScheduler()** method.
 ## ![image](https://user-images.githubusercontent.com/72850566/167483853-cb853ae5-09b6-46e2-a005-cd77ec60fa53.png)
 ### e. Cancel Flight
 Users can cancel a registered flight by specifying the number of tickets to cancel. These tickets will then be returned to the main flight scheduler.
+### f. Flights Registered By Customer
+This section displays info about the flights registered by the logged in customer and also shows the flight status. Flights status updates as a scheduled flight is cancelled/deleted by the admin.
+## ![image](https://user-images.githubusercontent.com/72850566/167658720-ef611cf2-d3b6-4d31-bb36-ca8bb789853a.png)
+## 3. Admin Registration & Login
+The administration bears a heavy responsibility as they've to manage the entire system. An admin can perform **CRUD operations**, manage flights and customers. Following are the responsibilities of the admin for this reservation system.
+### a. CRUD Operations
+### b. Delete a Flight
+### c. Display All Passengers
+### d. Display All Flights Registered By a Passenger
+### e. Display All Registered Passengers In a Flight
