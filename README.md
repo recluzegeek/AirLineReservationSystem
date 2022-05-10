@@ -13,7 +13,7 @@ You can access all the features of the program by logging in with your credentia
 ## ![image](https://user-images.githubusercontent.com/72850566/167475733-d9a5e04c-32f7-4886-9dc7-ef7926c95ce6.png)
 ### a. Book Flight
 This module helps customers book a flight. Customers must enter the flight number and the number of tickets for the flight in order to make a reservation. An example is shown in the image below:
-## ![image](https://user-images.githubusercontent.com/72850566/167480036-e8c99e34-e44e-4c57-afe2-918767de8ec7.png)
+## ![image](https://user-images.githubusercontent.com/72850566/167619984-0b2241fb-ffc9-41bf-945a-4a8985718a49.png)
 ### b. Update Data
 This section allows users to modify their bio-data. Data includes name, email, phone number, address and age.
 If the user edits his data, logouts eventually and tries to log in with the old email, he won't be able to log in as his old email has been replaced.
@@ -24,3 +24,5 @@ If a user decides to delete their account, they can do so and all the data relat
 ### d. Random Flight Schedule
 This segment of the program shows the scheduled flights for this instance. The schedule may change as the program runs again.
 ## ![image](https://user-images.githubusercontent.com/72850566/167483853-cb853ae5-09b6-46e2-a005-cd77ec60fa53.png)
+### e. Cancel Flight
+Users can cancel a registered flight by specifying the number of tickets to cancel. These tickets will then be returned to the main flight scheduler.
