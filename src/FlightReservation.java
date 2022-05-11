@@ -38,9 +38,7 @@ public class FlightReservation implements DisplayClass {
                         f1.setNoOfSeatsInTheFlight(f1.getNoOfSeats() - numOfTickets);
                         if (!f1.isCustomerAlreadyAdded(f1.getListOfRegisteredCustomersInAFlight(), customer)) {
                             f1.addNewCustomerToFlight(customer);
-                        }/* else {
-                            f1.addTicketsToExistingCustomer(customer, numOfTickets);
-                        }*/
+                        }
                         if (isFlightAlreadyAddedToCustomerList(customer.flightsRegisteredByUser, f1)) {
                             addNumberOfTicketsToAlreadyBookedFlight(customer, numOfTickets);
                             if (flightIndex(flight.getFlightList(), flight) != -1) {
@@ -94,7 +92,6 @@ public class FlightReservation implements DisplayClass {
                             }
                             if (numOfTicketsForFlight == numOfTickets) {
                                 ticketsToBeReturned = flight.getNoOfSeats() + numOfTicketsForFlight;
-//                                customer.numOfTicketsBookedByUser.set(index, 0);
                                 customer.numOfTicketsBookedByUser.remove(index);
                                 flightIterator.remove();
                             } else {
@@ -104,12 +101,13 @@ public class FlightReservation implements DisplayClass {
                             flight.setNoOfSeatsInTheFlight(ticketsToBeReturned);
                             break;
                         }
+                        index++;
                     }
 
                 }else{
-                    System.out.println("No Flight Has been Registered by you with ID \"\" " + flightNum.toUpperCase() +" \"\".....");
+                    System.out.println("No Flight Has been Registered by you with ID \"\"" + flightNum.toUpperCase() +"\"\".....");
                 }
-                index++;
+//                index++;
                 if (!isFound) {
                     System.out.println("ERROR!!! Couldn't find Flight with ID \"" + flightNum.toUpperCase() + "\".....");
                 }
