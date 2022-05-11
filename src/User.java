@@ -240,12 +240,7 @@ public class User {
                             f1.displayMeasurementInstructions();
                         } else if (desiredChoice == 5) {
                             bookingAndReserving.displayArtWork(5);
-                            System.out.printf("%50s %s Here is the list of all the Flights registered by you %s", " ", "++++++++++++++", "++++++++++++++");
-                            bookingAndReserving.displayFlightsRegisteredByOneUser(result[1]);
-                            System.out.print("Enter the Flight Number of the Flight you want to cancel : ");
-                            String flightNum = read1.nextLine();
-
-                            bookingAndReserving.cancelFlight(result[1], flightNum);
+                            bookingAndReserving.cancelFlight(result[1]);
                         } else if (desiredChoice == 6) {
                             bookingAndReserving.displayArtWork(6);
                             bookingAndReserving.displayFlightsRegisteredByOneUser(result[1]);

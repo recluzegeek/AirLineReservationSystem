@@ -1,8 +1,8 @@
 /*
-* FlightReservation class allows the user to book, cancel and check the status of the registered flights.
-*
-*
-* */
+ * FlightReservation class allows the user to book, cancel and check the status of the registered flights.
+ *
+ *
+ * */
 
 
 import java.util.Iterator;
@@ -24,10 +24,9 @@ public class FlightReservation implements DisplayClass {
      * the customer to that flight, else if the user is already added to that flight, then it just updates the
      * numOfSeats of that flight.
      *
-     *
-     * @param flightNo FlightID of the flight to be booked
+     * @param flightNo     FlightID of the flight to be booked
      * @param numOfTickets number of tickets to be booked
-     * @param userID userID of the user which is booking the flight
+     * @param userID       userID of the user which is booking the flight
      */
     void bookFlight(String flightNo, int numOfTickets, String userID) {
         boolean isFound = false;
@@ -39,10 +38,9 @@ public class FlightReservation implements DisplayClass {
                         f1.setNoOfSeatsInTheFlight(f1.getNoOfSeats() - numOfTickets);
                         if (!f1.isCustomerAlreadyAdded(f1.getListOfRegisteredCustomersInAFlight(), customer)) {
                             f1.addNewCustomerToFlight(customer);
-                        } else {
+                        }/* else {
                             f1.addTicketsToExistingCustomer(customer, numOfTickets);
-                            break;
-                        }
+                        }*/
                         if (isFlightAlreadyAddedToCustomerList(customer.flightsRegisteredByUser, f1)) {
                             addNumberOfTicketsToAlreadyBookedFlight(customer, numOfTickets);
                             if (flightIndex(flight.getFlightList(), flight) != -1) {
@@ -51,8 +49,8 @@ public class FlightReservation implements DisplayClass {
                         } else {
                             customer.addNewFlightToCustomerList(f1);
                             addNumberOfTicketsForNewFlight(customer, numOfTickets);
-                            break;
                         }
+                    break;
                     }
                 }
             }
@@ -68,39 +66,50 @@ public class FlightReservation implements DisplayClass {
      * Cancels the flight for a particular user and return/add the numOfTickets back to
      * the main flight scheduler.
      *
-     * @param userID ID of the user for whom the flight is to be cancelled
-     * @param flightNum ID of the flight to be cancelled
+     * @param userID    ID of the user for whom the flight is to be cancelled
      */
-    void cancelFlight(String userID, String flightNum) {
+    void cancelFlight(String userID) {
+        String flightNum = "";
         Scanner read = new Scanner(System.in);
-        System.out.print("Enter the number of tickets to cancel : ");
-        int numOfTickets = read.nextInt();
         int index = 0, ticketsToBeReturned;
         boolean isFound = false;
         for (Customer customer : Customer.customerCollection) {
             if (userID.equals(customer.getUserID())) {
-                Iterator<Flight> flightIterator = customer.getFlightsRegisteredByUser().iterator();
-                while (flightIterator.hasNext()) {
-                    Flight flight = flightIterator.next();
-                    if (flightNum.equalsIgnoreCase(flight.getFlightNumber())) {
-                        isFound = true;
-                        int numOfTicketsForFlight = customer.getNumOfTicketsBookedByUser().get(index);
-                        while (numOfTickets > numOfTicketsForFlight) {
-                            System.out.print("ERROR!!! Number of tickets cannot be greater than " + numOfTicketsForFlight + " for this flight. Please enter the number of tickets again : ");
-                            numOfTickets = read.nextInt();
+                if (customer.getFlightsRegisteredByUser().size() != 0) {
+                    System.out.printf("%50s %s Here is the list of all the Flights registered by you %s", " ", "++++++++++++++", "++++++++++++++");
+                    displayFlightsRegisteredByOneUser(userID);
+                    System.out.print("Enter the Flight Number of the Flight you want to cancel : ");
+                    flightNum = read.nextLine();
+                    System.out.print("Enter the number of tickets to cancel : ");
+                    int numOfTickets = read.nextInt();
+                    Iterator<Flight> flightIterator = customer.getFlightsRegisteredByUser().iterator();
+                    while (flightIterator.hasNext()) {
+                        Flight flight = flightIterator.next();
+                        if (flightNum.equalsIgnoreCase(flight.getFlightNumber())) {
+                            isFound = true;
+                            int numOfTicketsForFlight = customer.getNumOfTicketsBookedByUser().get(index);
+                            while (numOfTickets > numOfTicketsForFlight) {
+                                System.out.print("ERROR!!! Number of tickets cannot be greater than " + numOfTicketsForFlight + " for this flight. Please enter the number of tickets again : ");
+                                numOfTickets = read.nextInt();
+                            }
+                            if (numOfTicketsForFlight == numOfTickets) {
+                                ticketsToBeReturned = flight.getNoOfSeats() + numOfTicketsForFlight;
+//                                customer.numOfTicketsBookedByUser.set(index, 0);
+                                customer.numOfTicketsBookedByUser.remove(index);
+                                flightIterator.remove();
+                            } else {
+                                ticketsToBeReturned = numOfTickets + flight.getNoOfSeats();
+                                customer.numOfTicketsBookedByUser.set(index, (numOfTicketsForFlight - numOfTickets));
+                            }
+                            flight.setNoOfSeatsInTheFlight(ticketsToBeReturned);
+                            break;
                         }
-                        if (numOfTicketsForFlight == numOfTickets) {
-                            ticketsToBeReturned = flight.getNoOfSeats() + numOfTicketsForFlight;
-                            flightIterator.remove();
-                        } else {
-                            ticketsToBeReturned = numOfTickets + flight.getNoOfSeats();
-                            customer.numOfTicketsBookedByUser.set(index, numOfTicketsForFlight - numOfTickets);
-                        }
-                        flight.setNoOfSeatsInTheFlight(ticketsToBeReturned);
-                        break;
                     }
-                    index++;
+
+                }else{
+                    System.out.println("No Flight Has been Registered by you with ID \"\" " + flightNum.toUpperCase() +" \"\".....");
                 }
+                index++;
                 if (!isFound) {
                     System.out.println("ERROR!!! Couldn't find Flight with ID \"" + flightNum.toUpperCase() + "\".....");
                 }
@@ -193,7 +202,7 @@ public class FlightReservation implements DisplayClass {
         for (Flight flight : flight.getFlightList()) {
             List<Customer> c = flight.getListOfRegisteredCustomersInAFlight();
             int size = flight.getListOfRegisteredCustomersInAFlight().size();
-            if (size!= 0) {
+            if (size != 0) {
                 displayHeaderForUsers(flight, c);
             }
         }
@@ -223,9 +232,9 @@ public class FlightReservation implements DisplayClass {
     @Override
     public void displayArtWork(int option) {
         String artWork;
-        if(option==1){
+        if (option == 1) {
             artWork = """
-                    
+                                        
                     d8888b.  .d88b.   .d88b.  db   dD      d88888b db      d888888b  d888b  db   db d888888b\s
                     88  `8D .8P  Y8. .8P  Y8. 88 ,8P'      88'     88        `88'   88' Y8b 88   88 `~~88~~'\s
                     88oooY' 88    88 88    88 88,8P        88ooo   88         88    88      88ooo88    88   \s
@@ -235,7 +244,7 @@ public class FlightReservation implements DisplayClass {
                                                                                                             \s
                                                                                                             \s
                     """;
-        }else if (option==2){
+        } else if (option == 2) {
             artWork = """
                                         
                     d88888b d8888b. d888888b d888888b      d888888b d8b   db d88888b  .d88b. \s
@@ -247,7 +256,7 @@ public class FlightReservation implements DisplayClass {
                                                                                              \s
                                                                                              \s
                     """;
-        }else if(option==3){
+        } else if (option == 3) {
             artWork = """
                                         
                     d8888b. d88888b db      d88888b d888888b d88888b       .d8b.   .o88b.  .o88b.  .d88b.  db    db d8b   db d888888b\s
@@ -259,7 +268,7 @@ public class FlightReservation implements DisplayClass {
                                                                                                                                      \s
                                                                                                                                      \s
                     """;
-        }else if (option==4){
+        } else if (option == 4) {
             artWork = """
 
                     d8888b.  .d8b.  d8b   db d8888b.  .d88b.  .88b  d88.      d88888b db      d888888b  d888b  db   db d888888b      .d8888.  .o88b. db   db d88888b d8888b. db    db db      d88888b\s
@@ -271,7 +280,7 @@ public class FlightReservation implements DisplayClass {
                                                                                                                                                                                                      \s
                     Are you thinking that it's not feasible(RandomSchedule)...Then you can confirm it by re-running the program...
                     """;
-        }else if (option==5){
+        } else if (option == 5) {
             artWork = """
                                         
                      .o88b.  .d8b.  d8b   db  .o88b. d88888b db           d88888b db      d888888b  d888b  db   db d888888b\s
@@ -283,7 +292,7 @@ public class FlightReservation implements DisplayClass {
                                                                                                                            \s
                                                                                                                            \s
                     """;
-        }else if (option==6){
+        } else if (option == 6) {
             artWork = """
                                         
                     d8888b. d88888b  d888b  d888888b .d8888. d888888b d88888b d8888b. d88888b d8888b.      d88888b db      d888888b  d888b  db   db d888888b .d8888.     \s
@@ -303,7 +312,7 @@ public class FlightReservation implements DisplayClass {
                                                                                                                                                                          \s
                                                                                                                                                                          \s
                     """;
-        }else{
+        } else {
             artWork = """
 
                     db       .d88b.   d888b   d888b  d88888b d8888b.       .d88b.  db    db d888888b\s
